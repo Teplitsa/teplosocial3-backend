@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Гибкий трек обучения",
+    "excerpt": "Изучайте только то, что вам действительно важно, и формируйте свою программу самостоятельно.",
+    "thumbnail": "/init/home/assets/img/advantage-1.svg"
+  },
+  {
+    "title": "Открытый контент",
+    "excerpt": "Учитесь на <a href=\"https://te-st.ru/section/events/\" target=\"_blank\">вебинарах Теплицы</a> или проходите курсы на нашей платформе «Теплица.Курсы», когда вам удобно.",
+    "thumbnail": "/init/home/assets/img/advantage-2.svg"
+  },
+  {
+    "title": "Поддержка коллег",
+    "excerpt": "<a href=\"https://t.me/joinchat/RnkCihAKZw8vO3cT\" target=\"_blank\">Присоединяйтесь к чату</a> — там мы встречаемся с экспертами, делимся опытом и знакомимся, чтобы делать мир лучше!",
+    "thumbnail": "/init/home/assets/img/advantage-3.svg"
+  },
+  {
+    "title": "Адаптационные тесты",
+    "excerpt": "Проходите специально разработанные тесты, которые помогут вам отсечь тот контент, которые вам уже знаком.",
+    "thumbnail": "/init/home/assets/img/advantage-4.svg"
+  }
+]

@@ -1,0 +1,695 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TST Next Project Design\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/teplosocial-"
+"backend\n"
+"POT-Creation-Date: 2022-03-02T06:53:18+00:00\n"
+"PO-Revision-Date: 2022-03-21 13:56+0200\n"
+"Last-Translator: Евгений <eugenykr@gmail.com>\n"
+"Language-Team: Русский\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n"
+"%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 2.0.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;"
+"_nx_js:1,2,3c;esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;"
+"esc_attr_x:1,2c;esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;"
+"transChoice:1,2\n"
+"X-Loco-Target-Locale: ru_RU\n"
+"X-Loco-Version: 2.3.1; wp-5.7.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: bower_components\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: assets\n"
+
+#. Theme Name of the theme
+msgid "Teplosocial 2.0"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "https://github.com/Teplitsa/ITVolunteer"
+msgstr ""
+
+#. Description of the theme
+msgid "Teplosocial theme"
+msgstr ""
+
+#. Author of the theme
+msgid "Teplitsa"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://te-st.ru/"
+msgstr ""
+
+#: admin/admin-assignments.php:143
+msgid "Decline"
+msgstr "Отклонить"
+
+#: admin/admin-assignments.php:163 admin/admin-assignments.php:167
+msgid "Wrong data given."
+msgstr ""
+
+#: admin/admin-assignments.php:196
+msgid "Assignment declined. User can re-uploaded it now."
+msgstr "Задание отклонено. Теперь студент может отправить его заново."
+
+#: admin/admin.php:20
+msgid "Teploset"
+msgstr "Теплица.Курсы"
+
+#: admin/admin.php:26 admin/admin.php:27
+msgid "Actions"
+msgstr "Действия"
+
+#: models/cache/cacheable.php:36 models/cache/cacheable.php:90
+#: models/learn/course_tag.php:62
+msgid "No %s found to delete."
+msgstr ""
+
+#: models/cache/cacheable.php:64
+msgid "No %s found to update."
+msgstr ""
+
+#: models/cache/cacheable.php:98
+msgid "A valid %s ID is required."
+msgstr ""
+
+#: models/cache/cacheable.php:109
+msgid "No %s found for the given ID."
+msgstr ""
+
+#: models/cache/cacheable.php:118
+msgid "The %s type is not equal to %s type."
+msgstr ""
+
+#: models/cache/cacheable.php:125
+msgid "The %s is not a public."
+msgstr ""
+
+#: models/course-testimonial.php:49
+msgid "Об авторе отзыва"
+msgstr ""
+
+#: models/course-testimonial.php:59
+msgid "Имя"
+msgstr ""
+
+#: models/course-testimonial.php:65
+msgid "Должность"
+msgstr ""
+
+#: models/learn/certificate.php:258 models/learn/certificate.php:301
+msgid "TCPDF is required."
+msgstr ""
+
+#: models/learn/course_tag.php:34
+msgid "No valid %s found."
+msgstr ""
+
+#: models/learn/user-progress.php:40
+msgid "No user progress item found to delete."
+msgstr ""
+
+#: models/reviews/course_review.php:19
+msgid "Error while adding mark: insufficient data given."
+msgstr ""
+
+#: models/reviews/course_review.php:33
+msgid "Error while adding Expert's mark: DB insertion error."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Account activation"
+msgstr ""
+
+#: post-types/course-testimonial.php:53
+msgid "Связанные отзывы"
+msgstr ""
+
+#: post-types/course-testimonial.php:54
+msgid "Связанный курс"
+msgstr ""
+
+#: post-types/course-testimonial.php:57 post-types/course.php:57
+#: post-types/teacher.php:57 post-types/track.php:63
+msgid "Курс"
+msgstr ""
+
+#: post-types/course-testimonial.php:58 post-types/course.php:58
+#: post-types/teacher.php:58 post-types/track.php:64
+msgid "Поиск курсов"
+msgstr ""
+
+#: post-types/course-testimonial.php:59 post-types/course.php:59
+#: post-types/teacher.php:59 post-types/track.php:65
+msgid "Курсы не найдены"
+msgstr ""
+
+#: post-types/course-testimonial.php:60 post-types/course-testimonial.php:66
+#: post-types/course.php:60 post-types/course.php:66 post-types/teacher.php:60
+#: post-types/teacher.php:66 post-types/track.php:60 post-types/track.php:66
+msgid "Создать связь"
+msgstr ""
+
+#: post-types/course-testimonial.php:63
+msgid "Отзывы"
+msgstr ""
+
+#: post-types/course-testimonial.php:64
+msgid "Поиск отзывов"
+msgstr ""
+
+#: post-types/course-testimonial.php:65
+msgid "Отзывы не найдены"
+msgstr ""
+
+#: post-types/course.php:53
+msgid "Связанные модули"
+msgstr ""
+
+#: post-types/course.php:54 post-types/teacher.php:54 post-types/track.php:53
+msgid "Связанные курсы"
+msgstr ""
+
+#: post-types/course.php:63
+msgid "Модуль"
+msgstr ""
+
+#: post-types/course.php:64
+msgid "Поиск модулей"
+msgstr ""
+
+#: post-types/course.php:65
+msgid "Модули не найдены"
+msgstr ""
+
+#: post-types/person.php:15 post-types/substance.php:12
+msgid "Not found"
+msgstr ""
+
+#: post-types/teacher.php:53
+msgid "Связанные преподаватели"
+msgstr ""
+
+#: post-types/teacher.php:63
+msgid "Преподаватель"
+msgstr ""
+
+#: post-types/teacher.php:64
+msgid "Поиск преподавателей"
+msgstr ""
+
+#: post-types/teacher.php:65
+msgid "Преподаватели не найдены"
+msgstr ""
+
+#: post-types/track.php:54
+msgid "Связанные треки"
+msgstr ""
+
+#: post-types/track.php:57
+msgid "Трек"
+msgstr ""
+
+#: post-types/track.php:58
+msgid "Поиск треков"
+msgstr ""
+
+#: post-types/track.php:59
+msgid "Треки не найдены"
+msgstr ""
+
+#: rest-api/auth.php:21 rest-api/auth.php:63 rest-api/auth.php:157
+#: rest-api/auth.php:194
+msgid "Invalid params"
+msgstr ""
+
+#: rest-api/auth.php:112
+msgid "No auth header"
+msgstr ""
+
+#: rest-api/auth.php:122
+msgid "Bad auth header"
+msgstr ""
+
+#: rest-api/auth.php:134
+msgid "Invalid auth token"
+msgstr ""
+
+#: rest-api/auth.php:141 rest-api/user/student.php:29
+msgid "User not found"
+msgstr ""
+
+#: rest-api/learn/assignment.php:27 rest-api/learn/block.php:24
+#: rest-api/learn/block.php:59 rest-api/learn/quiz.php:43
+#: rest-api/learn/quiz.php:66 rest-api/learn/quiz.php:99
+msgid "Block not found"
+msgstr ""
+
+#: rest-api/learn/assignment.php:41 rest-api/learn/block.php:36
+#: rest-api/learn/quiz.php:34 rest-api/learn/quiz.php:75
+#: rest-api/learn/quiz.php:111
+msgid "Module not found"
+msgstr ""
+
+#: rest-api/learn/block.php:71 rest-api/learn/quiz.php:146
+msgid "Authentication required"
+msgstr ""
+
+#: rest-api/learn/block.php:84 rest-api/learn/block.php:94
+#: rest-api/learn/course.php:112 rest-api/learn/course.php:121
+#: rest-api/learn/quiz.php:159 rest-api/learn/quiz.php:169
+#: rest-api/learn/track.php:39 rest-api/learn/track.php:49
+#: rest-api/reviews/course_review.php:34 rest-api/reviews/course_review.php:66
+#: rest-api/user/student.php:20 rest-api/user/student.php:46
+msgid "Error"
+msgstr ""
+
+#: rest-api/learn/block.php:186
+msgid "Block is always started."
+msgstr ""
+
+#: rest-api/learn/block.php:193
+msgid "Currently logged in student completed the block"
+msgstr ""
+
+#: rest-api/learn/certificate.php:58 rest-api/learn/course.php:49
+#: rest-api/learn/course.php:97 rest-api/learn/module.php:22
+#: rest-api/learn/module.php:43 rest-api/learn/track.php:23
+#: rest-api/reviews/course_review.php:22
+msgid "Course not found"
+msgstr ""
+
+#: rest-api/learn/certificate.php:72
+msgid "Course certificate not found"
+msgstr ""
+
+#: rest-api/learn/certificate.php:103 rest-api/learn/course.php:74
+msgid "Track not found"
+msgstr ""
+
+#: rest-api/learn/certificate.php:117
+msgid "Track certificate not found"
+msgstr ""
+
+#: rest-api/learn/course.php:193
+msgid "Currently logged in student started the course"
+msgstr ""
+
+#: rest-api/learn/course.php:201
+msgid "Currently logged in student completed the course"
+msgstr ""
+
+#: rest-api/learn/module.php:121
+msgid "Currently logged in student started the module"
+msgstr ""
+
+#: rest-api/learn/module.php:129
+msgid "Currently logged in student completed the module"
+msgstr ""
+
+#: rest-api/learn/quiz.php:25 rest-api/learn/quiz.php:134
+msgid "Quiz not found"
+msgstr ""
+
+#: rest-api/learn/track.php:94
+msgid "Currently logged in student started the track"
+msgstr ""
+
+#: rest-api/learn/track.php:102
+msgid "Currently logged in student completed the track"
+msgstr ""
+
+#: utils/atvetka.php:36 wp-cli/load_advantages.php:17
+#: wp-cli/load_atvetka.php:22
+msgid "Failed to get the source file: %s."
+msgstr ""
+
+#: wp-cli/cache.php:31
+msgid "No users found."
+msgstr ""
+
+#: wp-cli/cache.php:40 wp-cli/cache.php:206
+msgid "No courses found."
+msgstr ""
+
+#: wp-cli/cache.php:49 wp-cli/cache.php:230
+msgid "No tracks found."
+msgstr ""
+
+#: wp-cli/cache.php:58
+msgid "No certificates found."
+msgstr ""
+
+#: wp-cli/cache.php:90
+msgid "Failted to update stats."
+msgstr ""
+
+#: wp-cli/cache.php:93
+msgid "Stats successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:110 wp-cli/cache.php:140
+msgid "No %s found."
+msgstr ""
+
+#: wp-cli/cache.php:123 wp-cli/cache.php:153
+msgid "%d %s(s) successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:162
+msgid "No user progress data found."
+msgstr ""
+
+#: wp-cli/cache.php:175
+msgid "%d user progress items successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:184
+msgid "No certificate found."
+msgstr ""
+
+#: wp-cli/cache.php:197
+msgid "%d certificates successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:221
+msgid "%d course(s) successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:245
+msgid "%d track(s) successfully updated."
+msgstr ""
+
+#: wp-cli/cache.php:254
+msgid "No tags found."
+msgstr ""
+
+#: wp-cli/cache.php:267
+msgid "%d tag(s) successfully updated."
+msgstr ""
+
+#: wp-cli/debug.php:18
+msgid "User not defined."
+msgstr ""
+
+#: wp-cli/debug.php:22
+msgid "user %s; points %d"
+msgstr ""
+
+#: wp-cli/load_advantages.php:23
+msgid "Failed to decode the %s data."
+msgstr ""
+
+#: wp-cli/load_advantages.php:29
+msgid "Преимущества"
+msgstr ""
+
+#: wp-cli/load_advantages.php:53
+msgid "Failed to upload an image from url: %s."
+msgstr ""
+
+#: wp-cli/load_advantages.php:57
+msgid "Failed to set a thumbnail to %s with the ID #%d."
+msgstr ""
+
+#: wp-cli/load_advantages.php:62
+msgid "Failed to assign a term to the %s with the ID #%d."
+msgstr ""
+
+#: wp-cli/load_advantages.php:69
+msgid "%d %s(s) has been successfully loaded."
+msgstr ""
+
+#: wp-cli/load_atvetka.php:32
+msgid "Assignment notifications updated."
+msgstr ""
+
+#: wp-cli/load_atvetka.php:40
+msgid "Empty mail name."
+msgstr ""
+
+#: wp-cli/load_atvetka.php:44
+msgid "Setup email: %s"
+msgstr ""
+
+#: wp-cli/load_atvetka.php:48
+msgid "Email setup successfully completed."
+msgstr ""
+
+#: wp-cli/notify.php:37
+msgid "Onboarding faq sent."
+msgstr ""
+
+#: wp-cli/setup_blocks.php:36
+msgid "Block assignments count updated."
+msgstr ""
+
+#: wp-cli/setup_db.php:35
+msgid "Course reviews table created."
+msgstr ""
+
+#: wp-cli/setup_db.php:54
+msgid "Visitor sessions table created."
+msgstr ""
+
+#: wp-cli/setup_db.php:74
+msgid "Table created."
+msgstr ""
+
+#: wp-cli/stats.php:80
+msgid "Weekly stats sent."
+msgstr ""
+
+#: wp-cli/student_stats.php:28 wp-cli/student_stats.php:142
+msgid "User stats updated."
+msgstr ""
+
+#: wp-hooks/learn/adaptest.php:25 wp-hooks/learn/adaptest.php:28
+msgid "Адаптационный тест"
+msgstr ""
+
+#: wp-hooks/learn/adaptest.php:56
+msgid "Select an option"
+msgstr ""
+
+#: wp-hooks/learn/adaptest.php:121
+msgid "Выберите модуль"
+msgstr ""
+
+#: wp-hooks/learn/adaptest.php:144
+msgid "Модуль, который будет закрыт в случае правильного ответа"
+msgstr ""
+
+#: wp-hooks/learn/assignment.php:12
+msgid "Extra data for approval"
+msgstr ""
+
+#: wp-hooks/learn/assignment.php:20
+msgid "Submitted URL"
+msgstr ""
+
+#: wp-hooks/learn/assignment.php:27
+msgid "Submitted text"
+msgstr ""
+
+#: wp-hooks/learn/block.php:11 wp-hooks/learn/course.php:13
+msgid "Teplosocial meta"
+msgstr ""
+
+#: wp-hooks/learn/block.php:19
+msgid "Duration (in minutes)"
+msgstr ""
+
+#: wp-hooks/learn/block.php:25
+msgid "Link to video text version"
+msgstr ""
+
+#: wp-hooks/learn/block.php:30
+msgid "Task fields (for task blocks only)"
+msgstr ""
+
+#: wp-hooks/learn/block.php:35
+msgid "File Upload"
+msgstr ""
+
+#: wp-hooks/learn/block.php:36
+msgid "Link"
+msgstr ""
+
+#: wp-hooks/learn/block.php:37
+msgid "Text"
+msgstr ""
+
+#: wp-hooks/learn/course.php:21
+msgid "Краткое описание (карточка курса)"
+msgstr ""
+
+#: wp-hooks/learn/course.php:32
+msgid "Полное описание (лендинг курса)"
+msgstr ""
+
+#: wp-hooks/learn/course.php:43
+msgid "Кому подойдет"
+msgstr ""
+
+#: wp-hooks/learn/course.php:49
+msgid "Чему вы научитесь"
+msgstr ""
+
+#: wp-hooks/notification.php:23
+msgid ""
+"Hello from %s!<br><br>\n"
+"\n"
+"New block assignment was uploaded by a gamer, and is waiting for approve."
+"<br><br>\n"
+"\n"
+"<ul>\n"
+"<li><strong>Tile / block:</strong> %s / %s</li>\n"
+"<li><strong>The gamer:</strong> %s</li>\n"
+"<li><strong>The assignment uploaded:</strong> %s</li>\n"
+"<li><strong>The assignment upload time:</strong> %s</li>\n"
+"<li><strong>The assignment check deadline:</strong> %s</li>\n"
+"</ul>\n"
+"<br>\n"
+"Yours,<br>\n"
+"%s"
+msgstr ""
+"Привет с сайта «%s»!<br><br>\n"
+"\n"
+"Пользователь загрузил новое задание и ждет проверки.%s%s<br><br>\n"
+"\n"
+"<ul>\n"
+"<li><strong>Пользователь:</strong> %s</li>\n"
+"<li><strong>Задание загружено:</strong> %s</li>\n"
+"<li><strong>Время загрузки:</strong> %s</li>\n"
+"<li><strong>Нужно проверить до:</strong> %s</li>\n"
+"</ul>\n"
+"<br>\n"
+"%s"
+
+#: wp-hooks/notification.php:41
+msgid "assignments list page"
+msgstr ""
+
+#: wp-hooks/notification.php:51
+msgid "New block assignment uploaded"
+msgstr "Новое задание загружено"
+
+#: wp-hooks/notification.php:84 wp-hooks/notification.php:186
+msgid "Unknown tile"
+msgstr "Неизвестный курс"
+
+#: wp-hooks/notification.php:96 wp-hooks/notification.php:199
+msgid "Unknown block"
+msgstr "Неизвестный блок"
+
+#: wp-hooks/notification.php:133
+msgid "New gamer comment for an assignment"
+msgstr "Новый студент прокомментировал задание"
+
+#: wp-hooks/notification.php:134
+msgid ""
+"Hello from %s!<br><br>\n"
+"\n"
+"There is a new gamer's comment for an assignment.<br><br>\n"
+"\n"
+"<ul>\n"
+"<li><strong>Tile/block:</strong> %s %s / %s %s</li>\n"
+"<li><strong>Assignment:</strong> %s %s</li>\n"
+"<li><strong>The comment author:</strong> %s</li>\n"
+"<li><strong>The comment added:</strong> %s %s</li>\n"
+"</ul>\n"
+"<br>\n"
+"Yours,<br>\n"
+"%s"
+msgstr ""
+"Привет с сайта %s!<br><br>\n"
+"\n"
+"Студент оставил комментарий к заданию.<br><br>\n"
+"\n"
+"<ul>\n"
+"<li><strong>Курс / блок:</strong> %s %s / %s %s</li>\n"
+"<li><strong>Задание:</strong> %s %s</li>\n"
+"<li><strong>Комментарий автора:</strong> %s</li>\n"
+"<li><strong>Добавленный комментарий:</strong> %s %s</li>\n"
+"</ul>\n"
+"<br>\n"
+"%s"
+
+#~ msgid "New administrator comment for your assignment"
+#~ msgstr "Ты получил новый комментарий к заданию"
+
+#~ msgid ""
+#~ "Hello from %s, %s!<br><br>\n"
+#~ "\n"
+#~ "There is a new comment for your assignment upload.<br><br>\n"
+#~ "\n"
+#~ "<ul>\n"
+#~ "<li><strong>Tile / block:</strong> %s / %s</li>\n"
+#~ "<li><strong>Assignment:</strong> %s</li>\n"
+#~ "<li><strong>The comment added:</strong> %s </li>\n"
+#~ "</ul>\n"
+#~ "<br>\n"
+#~ "Yours,<br>\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Привет%.0s, %s!<br><br>\n"
+#~ "\n"
+#~ "Прочитай новый комментарий к твоему заданию. <br><br>\n"
+#~ "\n"
+#~ "<ul>\n"
+#~ "<li><strong>Курс / блок:</strong> %s / %s</li>\n"
+#~ "<li><strong>Задание:</strong> %s</li>\n"
+#~ "<li><strong>Добавленный комментарий:</strong> %s</li>\n"
+#~ "</ul>\n"
+#~ "<br>\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Hello from %s, %s!<br><br>\n"
+#~ "\n"
+#~ "We're happy to tell you that your assignment just been approved."
+#~ "<br><br>\n"
+#~ "\n"
+#~ "<ul>\n"
+#~ "<li><strong>Tile / block:</strong> %s / %s</li>\n"
+#~ "<li><strong>Assignment:</strong> %s</li>\n"
+#~ "%s\n"
+#~ "</ul>\n"
+#~ "<br>\n"
+#~ "Yours,<br>\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Привет%.0s, %s!<br><br>\n"
+#~ "\n"
+#~ "Поздравляем! Твое задание прошло проверку! Не сбавляй темп!<br><br>\n"
+#~ "\n"
+#~ "<ul>\n"
+#~ "<li><strong>Курс / блок:</strong> %s / %s</li>\n"
+#~ "<li><strong>Задание:</strong> %s</li>\n"
+#~ "%s\n"
+#~ "</ul>\n"
+#~ "<br>\n"
+#~ "%s"
+
+#~ msgid "Your assignment was approved"
+#~ msgstr "Твое задание прошло проверку! Ура!"
+
+#~ msgid "Teplitsa.Kurs account confirmation"
+#~ msgstr "Добро пожаловать на платформу «Теплица.Курсы»!"
+
+#~ msgid ""
+#~ "Hello, %s!\n"
+#~ "Please confirm your Teplitsa.Kurs account following this link: %s"
+#~ msgstr ""
+#~ "Привет, %s!\n"
+#~ "Рады тебя приветствовать на платформе «Теплица.Курсы»!"

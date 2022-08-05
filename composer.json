@@ -1,0 +1,6 @@
+{
+  "require": {
+    "mongodb/mongodb": "^1.8",
+    "tecnickcom/tcpdf": "^6.4.2"
+  }
+}

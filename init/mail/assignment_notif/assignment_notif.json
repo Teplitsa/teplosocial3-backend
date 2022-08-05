@@ -1,0 +1,10 @@
+[
+  {
+    "term": "new_admin_comment_on_assignment",
+    "subject": "Вы получили новый комментарий к заданию"
+  },
+  {
+    "term": "your_assignment_approved",
+    "subject": "Ваше задание прошло проверку! Ура!"
+  }
+]
