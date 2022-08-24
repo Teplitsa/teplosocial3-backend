@@ -7,16 +7,19 @@ const SOCIAL_LINK_TYPE_FACEBOOK = "vk";
 const SOCIAL_LINK_TYPE_TELEGRAM = "telegram";
 const SOCIAL_LINK_TYPE_OTHER = "";
 
-function get_social_link_type($url) {
+function get_social_link_type($link)
+{
     $type = SOCIAL_LINK_TYPE_OTHER;
 
-    if(\str_starts_with($url, "https://www.facebook.com")) {
+    if (str_starts_with($link, "https://www.facebook.com")) {
         $type = SOCIAL_LINK_TYPE_FACEBOOK;
-    }
-    elseif(\str_starts_with($url, "https://teleg.run") || \str_starts_with($url, "https://t.me")) {
+    } elseif (
+        str_starts_with($link, "https://teleg.run") ||
+        str_starts_with($link, "https://t.me") ||
+        preg_match('/^@\w+|[+0-9\s]{9,15}$/', $link)
+    ) {
         $type = SOCIAL_LINK_TYPE_TELEGRAM;
-    }
-    elseif(\str_starts_with($url, "https://vk.com")) {
+    } elseif (str_starts_with($link, "https://vk.com")) {
         $type = SOCIAL_LINK_TYPE_VK;
     }
 
