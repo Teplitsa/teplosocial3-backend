@@ -16,7 +16,7 @@ function get_social_link_type($link)
     } elseif (
         str_starts_with($link, "https://teleg.run") ||
         str_starts_with($link, "https://t.me") ||
-        preg_match('/^@[_a-zA-z0-9]+$/', $link)
+        preg_match('/^@[_a-zA-Z0-9]+$/', $link)
     ) {
         $type = SOCIAL_LINK_TYPE_TELEGRAM;
     } elseif (str_starts_with($link, "https://vk.com")) {
