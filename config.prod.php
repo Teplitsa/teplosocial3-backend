@@ -15,6 +15,7 @@ class Config extends ConfigCommon {
     ];
 
     const NEW_ASSIGNMENT_NOTIFY_EMAILS = [
-        'filatova@te-st.ru',
+        'maryshally90@gmail.com',
+//        'filatova@te-st.ru',
     ];
 }
