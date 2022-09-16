@@ -46,6 +46,20 @@ class CourseCache extends Cacheable
             'trackTitle'     => $track_title,
         ];
     }
+
+    public static function update_item_cache(int $item_id): void
+    {
+
+        $item_type = \get_post_type( $item_id );
+
+        if ($item_type !== static::$post_type) {
+            return;
+        }
+
+        parent::update_item_cache($item_id);
+
+    }
+
 }
 
 class Course extends Post

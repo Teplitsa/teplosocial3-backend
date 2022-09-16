@@ -122,6 +122,7 @@ require_once(get_theme_file_path() . '/wp-hooks/learn/assignment.php');
 require_once(get_theme_file_path() . '/wp-hooks/learn/user-progress.php');
 require_once(get_theme_file_path() . '/wp-hooks/learn/certificate.php');
 require_once(get_theme_file_path() . '/wp-hooks/learn/adaptest.php');
+require_once(get_theme_file_path() . '/wp-hooks/learn/quiz-types.php');
 require_once(get_theme_file_path() . '/wp-hooks/learn/course_tag.php');
 require_once(get_theme_file_path() . '/wp-hooks/notification.php');
 require_once(get_theme_file_path() . '/wp-hooks/stats.php');

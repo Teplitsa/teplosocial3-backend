@@ -9,44 +9,45 @@ use \Teplosocial\models\Module;
 
 class AdaptestHooks
 {
-    public static function init_quiz_adaptest_option($setting_option_fields = array(), $settings_metabox_key = '') {
-        if ( 'learndash-quiz-access-settings' === $settings_metabox_key ) {
+//    public static function init_quiz_adaptest_option($setting_option_fields = array(), $settings_metabox_key = '') {
+//        if ( 'learndash-quiz-access-settings' === $settings_metabox_key ) {
+//
+//            $post_id = get_the_ID();
+//            $is_adaptest = get_post_meta( $post_id, Quiz::META_IS_ADAPTEST, true );
+//            if ( empty( $is_adaptest ) ) {
+//                $is_adaptest = '';
+//            }
+//
+//            if ( ! isset( $setting_option_fields[Quiz::META_IS_ADAPTEST] ) ) {
+//                $setting_option_fields['is-adaptive-field'] = array(
+//                    'name'      => 'isAdaptive',
+//                    'type'      => 'checkbox-switch',
+//                    'label'     => esc_html__('Адаптационный тест', 'tps'),
+//                    'value'     => $is_adaptest,
+//                    'default'   => '',
+//                    'help_text' => esc_html__('Адаптационный тест', 'tps'),
+//                    'options'   => array(
+//                        ''   => '',
+//                        'on' => ''
+//                    ),
+//                    'rest'      => array(
+//                        'show_in_rest' => \LearnDash_REST_API::enabled(),
+//                        'rest_args'    => array(
+//                            'schema' => array(
+//                                'field_key' => 'is_adaptest',
+//                                'type'      => 'boolean',
+//                                'default'   => false,
+//                            ),
+//                        ),
+//                    ),
+//                );
+//            }
+//        }
+//
+//        return $setting_option_fields;
+//    }
 
-            $post_id = get_the_ID();
-            $is_adaptest = get_post_meta( $post_id, Quiz::META_IS_ADAPTEST, true );
-            if ( empty( $is_adaptest ) ) {
-                $is_adaptest = '';
-            }
-
-            if ( ! isset( $setting_option_fields[Quiz::META_IS_ADAPTEST] ) ) {
-                $setting_option_fields['is-adaptive-field'] = array(
-                    'name'      => 'isAdaptive',
-                    'type'      => 'checkbox-switch',
-                    'label'     => esc_html__('Адаптационный тест', 'tps'),
-                    'value'     => $is_adaptest,
-                    'default'   => '',
-                    'help_text' => esc_html__('Адаптационный тест', 'tps'),
-                    'options'   => array(
-                        ''   => '',
-                        'on' => ''
-                    ),
-                    'rest'      => array(
-                        'show_in_rest' => \LearnDash_REST_API::enabled(),
-                        'rest_args'    => array(
-                            'schema' => array(
-                                'field_key' => 'is_adaptest',
-                                'type'      => 'boolean',
-                                'default'   => false,
-                            ),
-                        ),
-                    ),
-                );
-            }
-        }
-
-        return $setting_option_fields;
-    }
-
+    // The field is removed in favor of the CMB2 field addition (wp-hooks/learn/quiz-types.php):
     public static function init_course_selector($setting_option_fields = array(), $settings_metabox_key = '') {
         // error_log("metabox_key: " . $settings_metabox_key);
 
@@ -85,6 +86,7 @@ class AdaptestHooks
         return $setting_option_fields;
     }
 
+    // The field is removed in favor of the CMB2 field addition (wp-hooks/learn/quiz-types.php):
     public static function filter_saved_fields( $settings_values = array(), $settings_metabox_key = '', $settings_screen_id = '' ) {
         // error_log("_POST: " . print_r($_POST, true));
         // error_log("settings_values: " . print_r($settings_values, true));
@@ -141,9 +143,9 @@ class AdaptestHooks
 
         ?>
         <div class="postbox">
-            <h3 class="hndle"><?php esc_html_e( 'Модуль, который будет закрыт в случае правильного ответа', 'tps' ); ?></h3>
+            <h3 class="hndle"><label for="tps_adaptest_question_module"><?php esc_html_e( 'Модуль, который будет закрыт в случае правильного ответа', 'tps' );?></label></h3>
             <div class="inside">
-                <select name="tps_adaptest_question_module">
+                <select id="tps_adaptest_question_module" name="tps_adaptest_question_module">
                     <?php foreach($options as $k => $option): ?>
                         <option value="<?php echo $k?>" <?php echo $selected_module === $k ? "selected" : ""?>><?php echo $option?></option>
                     <?php endforeach; ?>
@@ -256,8 +258,8 @@ class AdaptestHooks
 }
 
 // add_filter( 'learndash_settings_fields', '\Teplosocial\hooks\AdaptestHooks::init_quiz_adaptest_option', 1, 2 );
-add_filter( 'learndash_settings_fields', '\Teplosocial\hooks\AdaptestHooks::init_course_selector', 1, 2 );
-add_filter( 'learndash_metabox_save_fields_learndash-quiz-admin-data-handling-settings', '\Teplosocial\hooks\AdaptestHooks::filter_saved_fields', 1, 2 );
+//add_filter( 'learndash_settings_fields', '\Teplosocial\hooks\AdaptestHooks::init_course_selector', 1, 2 );
+//add_filter( 'learndash_metabox_save_fields_learndash-quiz-admin-data-handling-settings', '\Teplosocial\hooks\AdaptestHooks::filter_saved_fields', 1, 2 );
 add_action( 'tps_show_question_custom_metabox', '\Teplosocial\hooks\AdaptestHooks::show_question_module_selector', 1, 3 );
 add_action( 'tps_save_question', '\Teplosocial\hooks\AdaptestHooks::save_quiz_question_module', 10, 1 );
 add_action( 'wp_pro_quiz_completed_quiz', '\Teplosocial\hooks\AdaptestHooks::handle_complete_adaptest_quiz', 10, 1 );
