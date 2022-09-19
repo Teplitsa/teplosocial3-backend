@@ -112,7 +112,7 @@ class QuizTypesHooks {
                 // TODO Add meta name to the Quiz model as a class const:
                 $value = get_post_meta($field->object_id, 'tps_quiz_type', true);
 
-                return $value === 'quiz';
+                return $value === 'checklist';
 
             },
         ));

@@ -39,7 +39,19 @@ class Adaptest extends Quiz
 
     public static function is_quiz_adaptest($quiz_id) {
         // error_log("quiz_id:" . $quiz_id);
-        return self::get_course_id($quiz_id) > 0;
+        /** @todo When all Adaptest quizzes will have a proper "adaptest" value for the "tps_course_type" setting, leave only "tps_course_type" setting value check here */
+        if(self::get_course_id($quiz_id) > 0) {
+
+            if(get_post_meta($quiz_id, 'tps_quiz_type', true) !== 'adaptest') {
+                update_post_meta($quiz_id, 'tps_quiz_type', 'adaptest');
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
+
     }
 
     public static function get_course_id($quiz_id) {
