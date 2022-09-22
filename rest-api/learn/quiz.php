@@ -220,7 +220,7 @@ class QuizRestApi extends PostRestApi
                 'resolve' => function($quiz){
 
                     // TODO Add meta names to the Quiz model as class constants:
-                    $quiz_settings = [];
+                    $quiz_settings = null; // It's a request from the Frontender side
                     $quiz_type = get_post_meta($quiz->ID, 'tps_quiz_type', true);
 
                     if($quiz_type === 'checklist') {
