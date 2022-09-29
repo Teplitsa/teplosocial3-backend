@@ -99,6 +99,7 @@ class TrackRestApi extends PostRestApi
                 'resolve' => function($track){
 
                     return [ // TODO Add meta names to the Track model as class constants
+                        'description_lead' => get_post_meta($track->ID, 'tps_track_description_lead', true),
                         'description_common' => get_post_meta($track->ID, 'tps_track_description_common', true),
                         'description' => get_post_meta($track->ID, 'tps_track_description', true),
                     ];
