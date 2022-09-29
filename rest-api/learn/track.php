@@ -13,16 +13,13 @@ class TrackRestApi extends PostRestApi
         register_rest_route( 'tps/v1', '/tracks/(?P<slug>[- _0-9a-zA-Z]+)/start', [
             'methods' => \WP_REST_Server::CREATABLE,
             'callback' => function($request) {
+
                 $slug = $request->get_param('slug');
                 $action = $request->get_param('action');
                 $track = Track::get($slug);
 
-                if(!$track) {
-                    return new \WP_Error(
-                        'rest_tps_track_not_found',
-                        __( 'Course not found', 'tps' ),
-                        array( 'status' => 404 )
-                    );
+                if( !$track ) {
+                    return new \WP_Error('rest_tps_track_not_found', __('Course not found', 'tps'), ['status' => 404]);
                 }
                 
                 // error_log("track:" . $track->post_name);
@@ -30,24 +27,16 @@ class TrackRestApi extends PostRestApi
 
                 try {
                     return Track::start_track($track, $_POST);
-                }
-                catch(\Teplosocial\exceptions\AuthenticationRequiredException $ex) {
+                } catch(\Teplosocial\exceptions\AuthenticationRequiredException $ex) {
                     error_log($ex);
                     return new \WP_REST_Response(
-                        array(
-                            'code' => 'authentication_required',
-                            'message' => __( 'Error', 'tps' ),
-                        ),
+                        ['code' => 'authentication_required', 'message' => __('Error', 'tps'),],
                         500
                     );
-                }
-                catch(\Exception $ex) {
+                } catch(\Exception $ex) {
                     error_log($ex);
                     return new \WP_REST_Response(
-                        array(
-                            'code' => 'start_track_error',
-                            'message' => __( 'Error', 'tps' ),
-                        ),
+                        ['code' => 'start_track_error', 'message' => __('Error', 'tps'),],
                         500
                     );
                 }
@@ -66,43 +55,54 @@ class TrackRestApi extends PostRestApi
         $fields = [
             'duration' => [
                 'type'        => 'Int',
-                'resolve'     => function( $track ) {
+                'resolve'     => function($track) {
                     return Track::get_duration($track->ID);
                 },
             ],
             'points' => [
                 'type'        => 'Int',
-                'resolve'     => function( $track ) {
+                'resolve'     => function($track) {
                     return Track::get_points($track->ID);
                 },
             ],
             'numberOfBlocks' => [
                 'type'        => 'Int',
-                'resolve'     => function( $track ) {
+                'resolve'     => function($track) {
                     return Track::count_blocks($track->ID);
                 },
             ],
             'numberOfCompletedBlocks' => [
                 'type'        => 'Int',
-                'resolve'     => function( $track ) {
+                'resolve'     => function($track) {
                     $user_id = \get_current_user_id();
                     return Track::count_completed_blocks($track->ID, $user_id);
                 },
             ],
             'isStarted' => [
                 'type'        => 'Bool',
-                'description' => __( 'Currently logged in student started the track', 'tps' ),
-                'resolve'     => function( $track, $args, $context ) {
+                'description' => __('Currently logged in student started the track', 'tps'),
+                'resolve'     => function($track, $args, $context) {
                     $user_id = \get_current_user_id();
                     return Track::is_started_by_user($track->ID, $user_id);
                 },
             ],
             'isCompleted' => [
                 'type'        => 'Bool',
-                'description' => __( 'Currently logged in student completed the track', 'tps' ),
-                'resolve'     => function( $track, $args, $context ) {
+                'description' => __('Currently logged in student completed the track', 'tps'),
+                'resolve'     => function($track, $args, $context) {
                     $user_id = \get_current_user_id();
                     return Track::is_completed_by_user($track->ID, $user_id);
+                },
+            ],
+            'trackSettings' => [
+                'type' => 'Array',
+                'resolve' => function($track){
+
+                    return [ // TODO Add meta names to the Track model as class constants
+                        'description_common' => get_post_meta($track->ID, 'tps_track_description_common', true),
+                        'description' => get_post_meta($track->ID, 'tps_track_description', true),
+                    ];
+
                 },
             ],
         ];
