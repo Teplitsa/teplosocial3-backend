@@ -21,8 +21,8 @@ class Stats
 //        $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
 //        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
         // TODO Only for the first call - at 02.12.2022! After that, return to prev. interval settings (weekly):
-        $date_week_ago = date('Y-m-d', strtotime('')); // Interval start date, date('Y-m-d') format
-        $date_last_day_to_display = date('Y-m-d', strtotime('')); // Interval end date, date('Y-m-d') format
+        $date_week_ago = date('Y-m-d H:i:s', strtotime('2022-10-01 00:00:00')); // Interval start date, date('Y-m-d') format
+        $date_last_day_to_display = date('Y-m-d H:i:s', strtotime('2022-12-01 23:59:59')); // Interval end date, date('Y-m-d') format
         // TODO END
 
 
