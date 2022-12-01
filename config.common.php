@@ -12,11 +12,11 @@ class ConfigCommon {
     const TRACK_POINTS = 50;
 
     const STATS_GOALS = [
-        'registered_users_count' => 1000,
+        'registered_users_count' => 300,
         'completed_adaptests_count' => 350,
         'avarage_session_duration' => "8:00 мин.",
         'completed_tracks_count' => 100,
         'certificates_count' => 300,
-        'completed_modules_count' => 1000,
+        'completed_modules_count' => 700,
     ];
 }
