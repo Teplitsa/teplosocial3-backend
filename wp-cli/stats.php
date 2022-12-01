@@ -5,7 +5,7 @@ namespace Teplosocial\cli;
 use Teplosocial\models\{Stats as StatsModel, UserStats, TrackStats, ModuleStats, CertificateStats, QuizStats, VisitorSessionStats};
 use Teplosocial\Config;
 
-if (!class_exists('WP_CLI')) {
+if( !class_exists('WP_CLI') ) {
     return;
 }
 
@@ -18,8 +18,14 @@ class Stats
 
         $stats = [];
 
-        $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
-        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
+//        $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
+//        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
+        // TODO Only for the first call - at 02.12.2022! After that, return to prev. interval settings (weekly):
+        $date_week_ago = date('Y-m-d', strtotime('')); // Interval start date, date('Y-m-d') format
+        $date_last_day_to_display = date('Y-m-d', strtotime('')); // Interval end date, date('Y-m-d') format
+        // TODO END
+
+
         $date_last_day = \date("Y-m-d");
 
         \WP_CLI::log("date_week_ago: ".$date_week_ago);
