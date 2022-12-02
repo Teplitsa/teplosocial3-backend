@@ -9,10 +9,9 @@ if( !class_exists('WP_CLI') ) {
     return;
 }
 
-class Stats
-{
-    public function mail_weekly_stats($args, $assoc_args)
-    {
+class Stats {
+
+    public function mail_weekly_stats($args, $assoc_args) {
 
         global $wpdb;
 
@@ -138,15 +137,15 @@ class Stats
         $message = nl2br($message);
         $message = \Teplosocial\utils\fill_template($message, $stats_data);
 
-        $to = 'ahaenor@gmail.com'; // get_bloginfo('admin_email'); // TODO TMP DBG
+        $to = get_bloginfo('admin_email');
         $from = $to;
 
         $headers  = 'MIME-Version: 1.0'."\r\n";
         $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
         $headers .= 'From: '.wp_specialchars_decode(get_option('blogname'), ENT_QUOTES).' <'.$from.'>'."\r\n";
-//        if(count(Config::STATS_EXTRA_EMAILS) > 0) { // TODO TMP DBG
-//            $headers .= 'Cc: '.implode(', ', Config::STATS_EXTRA_EMAILS)."\r\n";
-//        }
+        if(count(Config::STATS_EXTRA_EMAILS) > 0) {
+            $headers .= 'Cc: '.implode(', ', Config::STATS_EXTRA_EMAILS)."\r\n";
+        }
         
         wp_mail($to, $subject, $message, $headers);
 
@@ -164,6 +163,7 @@ class Stats
         return $week_number;
 
     }
+
 }
 
 \WP_CLI::add_command('tps_stats', '\Teplosocial\cli\Stats');
