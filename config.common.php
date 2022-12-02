@@ -13,10 +13,10 @@ class ConfigCommon {
 
     const STATS_GOALS = [
         'registered_users_count' => 300,
-        'completed_adaptests_count' => 350,
-        'avarage_session_duration' => "8:00 мин.",
-        'completed_tracks_count' => 100,
-        'certificates_count' => 300,
         'completed_modules_count' => 700,
+//        'completed_adaptests_count' => 350,
+//        'avarage_session_duration' => "8:00 мин.",
+//        'completed_tracks_count' => 100,
+//        'certificates_count' => 300,
     ];
 }
