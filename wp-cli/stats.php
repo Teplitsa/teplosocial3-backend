@@ -20,13 +20,16 @@ class Stats
 
 //        $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
 //        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
-        // TODO Only for the first call - at 02.12.2022! After that, return to prev. interval settings (weekly):
-        $date_week_ago = date('Y-m-d H:i:s', strtotime('2022-10-01 00:00:00')); // Interval start date, date('Y-m-d') format
-        $date_last_day_to_display = date('Y-m-d H:i:s', strtotime('2022-12-01 23:59:59')); // Interval end date, date('Y-m-d') format
+        // TODO Only for the first call - at 02.12.2022! After that, return to prev. interval settings (weekly), but call the script every FRIDAY (instead of overy Monday):
+        $date_week_ago = date('Y-m-d', strtotime('2022-10-01 00:00:00')); // Interval start date, date('Y-m-d') format
+        $date_last_day_to_display = date('Y-m-d', strtotime('2022-12-01 23:59:59')); // Interval end date, date('Y-m-d') format
+
+//        echo 'INTERVAL BORDERS BEFORE: '.\Teplosocial\utils\get_week_ago_mysql_date().' - '.\Teplosocial\utils\get_yesterday_mysql_date()."\r\n";
+//        echo 'INTERVAL BORDERS NOW: '.$date_week_ago.' - '.$date_last_day_to_display."\r\n";
         // TODO END
 
 
-        $date_last_day = \date("Y-m-d");
+        $date_last_day = \date('Y-m-d');
 
         \WP_CLI::log("date_week_ago: ".$date_week_ago);
         \WP_CLI::log("date_last_day: ".$date_last_day);
@@ -117,7 +120,9 @@ class Stats
     }
 
     private function send_stats_email($stats_data) {
-        $subject = "Теплица.Курсы - статистика за {{week_number}}-ю неделю";
+
+        // $subject = "Теплица.Курсы - статистика за {{week_number}}-ю неделю"; // TODO TMP DBG
+        $subject = "Теплица.Курсы - статистика за период с 1-го октября по 1 декабря (включительно)";
         $message = <<<MAIL
             Статистика Теплица.Курсы за {{week_number}}-ю неделю с {{from_date}} по {{to_date}}.
 
@@ -128,8 +133,8 @@ class Stats
 
         $message = nl2br($message);
         $message = \Teplosocial\utils\fill_template($message, $stats_data);
-        
-        $to = stristr(site_url(), 'ngo2') === false ? get_bloginfo('admin_email') : 'ahaenor@gmail.com'; // TODO TMP DBG
+
+        $to = get_bloginfo('admin_email'); // TODO TMP DBG
         $from = $to;
 
         $headers  = 'MIME-Version: 1.0'."\r\n";
@@ -140,17 +145,20 @@ class Stats
         }
         
         wp_mail($to, $subject, $message, $headers);
+
     }
 
     private function get_week_number() {
+
         $now_datetime = new \DateTime();
-        $start_datetime = \DateTime::createFromFormat('Y-m-d H:i:s', "2021-10-01 00:00:00");
+        $start_datetime = \DateTime::createFromFormat('Y-m-d H:i:s', '2021-10-01 00:00:00');
         $datetime_diff = $now_datetime->diff($start_datetime);
         
         $days_number = $datetime_diff->format('%a');
         $week_number = floor($days_number / 7);
         
         return $week_number;
+
     }
 }
 
