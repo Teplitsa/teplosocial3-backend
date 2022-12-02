@@ -66,7 +66,7 @@ class Stats {
         \WP_CLI::log('total_completed_adaptests_count: '.$stats['total_completed_adaptests_count']);
 
         $stats['avarage_session_duration'] = \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration($date_week_ago, $date_last_day));
-        $stats['total_avarage_session_duration'] = \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration($date_week_ago, $date_last_day_to_display));
+        $stats['total_avarage_session_duration'] = \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration(\Teplosocial\utils\get_week_ago_mysql_date(), $date_last_day_to_display));
 
         \WP_CLI::log('avarage_session_duration: '.$stats['avarage_session_duration']);
         \WP_CLI::log('total_avarage_session_duration: '.$stats['total_avarage_session_duration']);
@@ -139,15 +139,15 @@ class Stats {
         $message = nl2br($message);
         $message = \Teplosocial\utils\fill_template($message, $stats_data);
 
-        $to = 'ahaenor@gmail.com'; // get_bloginfo('admin_email'); // TODO TMP DBG
+        $to = get_bloginfo('admin_email');
         $from = $to;
 
         $headers  = 'MIME-Version: 1.0'."\r\n";
         $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
         $headers .= 'From: '.wp_specialchars_decode(get_option('blogname'), ENT_QUOTES).' <'.$from.'>'."\r\n";
-//        if(count(Config::STATS_EXTRA_EMAILS) > 0) { // TODO TMP DBG
-//            $headers .= 'Cc: '.implode(', ', Config::STATS_EXTRA_EMAILS)."\r\n";
-//        }
+        if(count(Config::STATS_EXTRA_EMAILS) > 0) {
+            $headers .= 'Cc: '.implode(', ', Config::STATS_EXTRA_EMAILS)."\r\n";
+        }
         
         wp_mail($to, $subject, $message, $headers);
 
