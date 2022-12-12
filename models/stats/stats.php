@@ -31,12 +31,12 @@ class UserStats extends Stats
         return $count;
     }
 
-    public static function get_registered_count($mysql_date_from = "2021-10-01", $mysql_date_to = ""): int
+    public static function get_registered_count($mysql_date_from = '2021-12-01', $mysql_date_to = ''): int
     {
         global $wpdb;
 
         if(!$mysql_date_to) {
-            $mysql_date_to = date("Y-m-d");
+            $mysql_date_to = date('Y-m-d');
         }
 
         $count = $wpdb->get_var(

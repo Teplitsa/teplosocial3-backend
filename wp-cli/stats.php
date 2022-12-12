@@ -17,13 +17,13 @@ class Stats {
 
         $stats = [];
 
+        // Use in normal work mode (w/o custom date settings):
 //        $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
-//        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
-        // TODO Only for the first stats script call (at 02.12.2022)! After that, return to prev. interval settings (weekly), but call the script every FRIDAY (instead of overy Monday):
-        $date_week_ago = date('Y-m-d', strtotime('2022-10-01 00:00:00')); // Interval start date, date('Y-m-d') format
-        $date_last_day_to_display = date('Y-m-d', strtotime('2022-12-01 23:59:59')); // Interval end date, date('Y-m-d') format
-        // TODO END
+//        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date(); // Use in normal work mode
 
+        // Use when custom dates settings are needed:
+        $date_week_ago = date('Y-m-d', strtotime('2022-12-02 00:00:00')); // Interval start date, date('Y-m-d') format
+        $date_last_day_to_display = date('Y-m-d', strtotime('2022-12-09 23:59:59')); // Interval end date, date('Y-m-d') format
 
         $date_last_day = \date('Y-m-d');
 
@@ -31,14 +31,12 @@ class Stats {
         \WP_CLI::log('date_last_day: '.$date_last_day);
 
         $stats['registered_users_count'] = UserStats::get_registered_count($date_week_ago, $date_last_day_to_display);
-//        $stats['total_registered_users_count'] = UserStats::get_registered_count(); // TODO TMP DBG
         $stats['total_registered_users_count'] = UserStats::get_registered_count($date_week_ago, $date_last_day_to_display);
 
         \WP_CLI::log('registered_users_count: '.$stats['registered_users_count']);
         \WP_CLI::log('total_registered_users_count: '.$stats['total_users_count']);
 
         $stats['completed_modules_count'] = ModuleStats::get_completed_count($date_week_ago, $date_last_day_to_display);
-//        $stats['total_completed_modules_count'] = ModuleStats::get_completed_count(); // TODO TMP DBG
         $stats['total_completed_modules_count'] = ModuleStats::get_completed_count($date_week_ago, $date_last_day_to_display);
 
         \WP_CLI::log('completed_modules_count: '.$stats['completed_modules_count']);
@@ -82,8 +80,8 @@ class Stats {
 
         $this->send_stats_email([
             'stats_html' => $this->compose_stats_html($stats, $stats_titles, Config::STATS_GOALS),
-            'from_date' => date("d.m.Y", strtotime($date_week_ago)),
-            'to_date' => date("d.m.Y", strtotime($date_last_day_to_display)),
+            'from_date' => date('d.m.Y', strtotime($date_week_ago)),
+            'to_date' => date('d.m.Y', strtotime($date_last_day_to_display)),
             'week_number' => $this->get_week_number(),
             'week_completed_modules' => $stats['completed_modules_count'],
         ]);
@@ -102,7 +100,7 @@ class Stats {
         foreach($stats_titles as $key => $title) {
 
             $i++;
-            echo '<tr class="'.($i % 2 == 0 ? "alternate" : '').'">';
+            echo '<tr class="'.($i % 2 == 0 ? 'alternate' : '').'">';
             echo '<td style="padding-right:50px;">'.$title.'&nbsp;</td>';
 
             echo '<td><b>'.($key != 'avarage_session_duration' ? '+' : '').$stats[$key].'</b>&nbsp;</td>';
@@ -126,8 +124,7 @@ class Stats {
 
     private function send_stats_email($stats_data) {
 
-        // $subject = "Теплица.Курсы - статистика за {{week_number}}-ю неделю"; // TODO TMP DBG
-        $subject = "Теплица.Курсы - статистика за период с 1-го октября по 1 декабря (включительно)";
+        $subject = "Теплица.Курсы - статистика за {{week_number}}-ю неделю";
         $message = <<<MAIL
             Статистика Теплица.Курсы за {{week_number}}-ю неделю с {{from_date}} по {{to_date}}.
 
