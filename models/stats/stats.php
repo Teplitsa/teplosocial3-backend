@@ -395,7 +395,7 @@ class VisitorSessionStats extends Stats
             $durations[] = \strtotime($session->time_last_touch) - \strtotime($session->time_start);
         }
 
-        $avg_session_duration = !empty($durations) ? array_sum($durations) / count($durations) : 0;
+        $avg_session_duration = empty($durations) ? 0 : array_sum($durations) / count($durations);
 
         return $avg_session_duration;
     }

@@ -17,6 +17,8 @@ class Stats {
 
         $stats = [];
 
+        $date_total_period_start = date('Y-m-d', strtotime('2022-10-01 00:00:00')); // Interval start date, date('Y-m-d') format
+
         // Use in normal work mode (w/o custom date settings):
         $date_week_ago = \Teplosocial\utils\get_week_ago_mysql_date();
         $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
@@ -33,40 +35,60 @@ class Stats {
         \WP_CLI::log('date_last_day: '.$date_last_day);
 
         $stats['registered_users_count'] = UserStats::get_registered_count($date_week_ago, $date_last_day_to_display);
-        $stats['total_registered_users_count'] = UserStats::get_registered_count($date_week_ago, $date_last_day_to_display);
+        $stats['total_registered_users_count'] = UserStats::get_registered_count(
+            $date_total_period_start,
+            $date_last_day_to_display
+        );
 
         \WP_CLI::log('registered_users_count: '.$stats['registered_users_count']);
         \WP_CLI::log('total_registered_users_count: '.$stats['total_registered_users_count']);
 
         $stats['completed_modules_count'] = ModuleStats::get_completed_count($date_week_ago, $date_last_day_to_display);
-        $stats['total_completed_modules_count'] = ModuleStats::get_completed_count($date_week_ago, $date_last_day_to_display);
+        $stats['total_completed_modules_count'] = ModuleStats::get_completed_count(
+            $date_total_period_start,
+            $date_last_day_to_display
+        );
 
         \WP_CLI::log('completed_modules_count: '.$stats['completed_modules_count']);
         \WP_CLI::log('total_completed_modules_count: '.$stats['total_completed_modules_count']);
 
         $stats['completed_tracks_count'] = TrackStats::get_completed_count($date_week_ago, $date_last_day_to_display);
-        $stats['total_completed_tracks_count'] = TrackStats::get_completed_count($date_week_ago, $date_last_day_to_display);
+        $stats['total_completed_tracks_count'] = TrackStats::get_completed_count(
+            $date_total_period_start,
+            $date_last_day_to_display
+        );
 
         \WP_CLI::log('completed_tracks_count: '.$stats['completed_tracks_count']);
         \WP_CLI::log('total_completed_tracks_count: '.$stats['total_completed_tracks_count']);
 
         $stats['certificates_count'] = CertificateStats::get_count_on_kursi($date_week_ago, $date_last_day_to_display);
-        $stats['total_certificates_count'] = CertificateStats::get_count_on_kursi($date_week_ago, $date_last_day_to_display);
+        $stats['total_certificates_count'] = CertificateStats::get_count_on_kursi(
+            $date_total_period_start,
+            $date_last_day_to_display
+        );
 
         \WP_CLI::log('certificates_count: '.$stats['certificates_count']);
         \WP_CLI::log('total_certificates_count: '.$stats['total_certificates_count']);
 
         $stats['completed_adaptests_count'] = QuizStats::get_completed_adaptests_count($date_week_ago, $date_last_day_to_display);
         $stats['total_completed_adaptests_count'] = QuizStats::get_completed_adaptests_count(
-            $date_week_ago,
+            $date_total_period_start,
             $date_last_day_to_display
         );
 
         \WP_CLI::log('completed_adaptests_count: '.$stats['completed_adaptests_count']);
         \WP_CLI::log('total_completed_adaptests_count: '.$stats['total_completed_adaptests_count']);
 
-        $stats['avarage_session_duration'] = \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration($date_week_ago, $date_last_day));
-        $stats['total_avarage_session_duration'] = \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration(\Teplosocial\utils\get_week_ago_mysql_date(), $date_last_day_to_display));
+        $stats['avarage_session_duration'] =
+            \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration(
+                $date_week_ago,
+                $date_last_day
+            ));
+        $stats['total_avarage_session_duration'] =
+            \Teplosocial\utils\seconds_to_hours_minutes(VisitorSessionStats::get_avarage_duration(
+                $date_total_period_start,
+                $date_last_day_to_display
+            ));
 
         \WP_CLI::log('avarage_session_duration: '.$stats['avarage_session_duration']);
         \WP_CLI::log('total_avarage_session_duration: '.$stats['total_avarage_session_duration']);
