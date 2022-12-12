@@ -7,7 +7,7 @@ function get_yesterday_mysql_date() {
 }
 
 function get_week_ago_mysql_date() {
-    return date('Y-m-d', strtotime('last Friday'));
+    return date('Y-m-d', strtotime('-7 days'));
 }
 
 function seconds_to_hours_minutes($seconds) {
