@@ -11,6 +11,7 @@ class Config extends ConfigCommon {
         'kartsov@te-st.ru',
         'avdeeva.nataliya@gmail.com',
         'sidorenko.a@te-st.ru',
+        'ahaenor@gmail.com',
 //        'denis.cherniatev@gmail.com',
     ];
 
