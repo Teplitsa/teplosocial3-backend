@@ -1,9 +1,8 @@
 <?php
 
 require get_template_directory() . '/admin/actions.php';
-
 require get_template_directory() . '/admin/admin-assignments.php';
-
+require get_template_directory() . '/admin/admin-statistics.php';
 require get_template_directory() . '/admin/page-reviews.php';
 
 /**
@@ -29,15 +28,22 @@ function tps_menu_setup() {
         'tps_actions',
         'tps_admin_actions_page_display',
     );
+
+    add_submenu_page(
+        'learndash-lms',
+        'Статистика',
+        'Статистика',
+        'manage_options',
+        'tps_statistics',
+        'tps_admin_statistics_page_display',
+    );
+
 }
 add_action('admin_menu', 'tps_menu_setup', 50);
 
-
-// actions
 function tps_admin_actions_page_display() {
-	include( get_template_directory() . '/admin/page-actions.php' );
+	include( get_template_directory().'/admin/page-actions.php' );
 }
-
 
 // course reviews
 function tps_feedback_page_register() {
