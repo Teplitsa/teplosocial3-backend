@@ -77,7 +77,9 @@ function tps_admin_statistics_page_display() {
             Teplosocial\Config::STATS_EXTRA_EMAILS :
             array_map(function($element){ return trim($element); }, explode(',', $_GET['tps_stats_results_emails']));
 
-        echo '<pre>'.print_r($_GET, 1).'</pre>';
+        if(isset($_GET['tst'])) {
+            echo '<pre>'.print_r($_GET, 1).'</pre>';
+        }
 
         /** @todo When Teplosocial\models\StatsReport::get_weekly_report_stats() is ready, use it inslead of Teplosocial\cli\Stats::mail_weekly_stats() */
 
