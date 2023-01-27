@@ -13,7 +13,7 @@ class Stats {
 
     public function mail_weekly_stats($args, $assoc_args) {
 
-        global $wpdb;
+//        global $wpdb;
 
         $stats = [];
 
@@ -21,7 +21,7 @@ class Stats {
             $assoc_args,
             [
                 'date-from' => \Teplosocial\utils\get_week_ago_mysql_date(),
-                'date-to' => \Teplosocial\utils\get_yesterday_mysql_date(),
+                'date-to' => date('Y-m-d'),
                 'date-total-period-start' => get_option('tps_stats_date_total_period_start'),
                 'emails' => Config::STATS_EXTRA_EMAILS,
                 'print-results' => 'cli',
@@ -210,11 +210,23 @@ class Stats {
         $headers  = 'MIME-Version: 1.0'."\r\n";
         $headers .= 'Content-type: text/html; charset=UTF-8'."\r\n";
         $headers .= 'From: '.wp_specialchars_decode(get_option('blogname'), ENT_QUOTES).' <'.$from.'>'."\r\n";
-        if(count(Config::STATS_EXTRA_EMAILS) > 0) {
+        if(count($emails)) {
             $headers .= 'Cc: '.implode(', ', $emails)."\r\n";
         }
+
+        if(isset($_GET['tst'])) {
+            echo '<pre>To: '.print_r($to, 1).'</pre>';
+            echo '<pre>Subject: '.print_r($subject, 1).'</pre>';
+            echo '<pre>Message: '.print_r($message, 1).'</pre>';
+            echo '<pre>Headers: '.print_r($headers, 1).'</pre>';
+        }
         
-        wp_mail($to, $subject, $message, $headers);
+        $res = wp_mail($to, $subject, $message, $headers);
+//        $res = wp_mail('ahaenor@gmail.com', 'Test email', 'Test email text');
+
+        if(isset($_GET['tst'])) {
+            echo '<pre>Results email sent: '.print_r((int)$res, 1).'</pre>';
+        }
 
     }
 
