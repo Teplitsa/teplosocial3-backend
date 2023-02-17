@@ -38,6 +38,15 @@ function tps_menu_setup() {
         'tps_admin_statistics_page_display',
     );
 
+    add_submenu_page(
+        'learndash-lms',
+        'Активность - модули',
+        'Активность - модули',
+        'manage_options',
+        'tps_users_activity_modules',
+        'tps_admin_users_activity_modules_page_display',
+    );
+
 }
 add_action('admin_menu', 'tps_menu_setup', 50);
 
