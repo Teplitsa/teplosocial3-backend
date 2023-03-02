@@ -7,16 +7,23 @@ require_once(get_theme_file_path() . '/config.php');
 load_theme_textdomain('tps', get_theme_file_path() . '/lang');
 error_reporting(E_ALL & ~E_NOTICE);
 set_error_handler(function ($severity, $message, $file, $line) {
-    if (error_reporting() & $severity) {
+
+    if(error_reporting() & $severity) {
+
         error_log($message);
-        $trace = debug_backtrace();
-        foreach ($trace as $line) {
-            if (strpos($line['file'], '/wp-content/themes/teplosocial-backend/') !== false) {
+
+        foreach(debug_backtrace() as $line) {
+
+            if(isset($line['file']) && strpos($line['file'], '/wp-content/themes/teplosocial-backend/') !== false) {
                 error_log("{$line['line']} in {$line['file']}");
             }
+
         }
+
         error_log("\n");
+
     }
+
 });
 
 // Admin area additions

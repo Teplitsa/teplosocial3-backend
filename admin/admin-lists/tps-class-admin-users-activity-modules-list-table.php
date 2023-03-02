@@ -5,13 +5,17 @@ if( !class_exists('WP_List_Table') ) {
     require_once(ABSPATH.'wp-admin/includes/class-wp-list-table.php');
 }
 
+use \Teplosocial\models\Module;
+use \Teplosocial\models\Course;
+use \Teplosocial\models\Track;
+
 class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
     protected static $_items_count = NULL;
 
     public function __construct() {
 
-        parent::__construct(['singular' => __('Item', 'leyka'), 'plural' => __('Items', 'leyka'), 'ajax' => true,]);
+        parent::__construct(['singular' => 'Строка', 'plural' => 'Строки', 'ajax' => true,]);
 
         add_filter('default_hidden_columns', [$this, 'get_default_hidden_columns'], 10);
 
@@ -30,9 +34,82 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
      */
     public function filter_items(array $params, $filter_type = '') {
 
-//        if( !empty($_GET['type']) && in_array($_GET['type'], array_keys(leyka_get_payment_types_list())) ) {
-//            $params['payment_type'] = $_GET['type'];
-//        }
+        if( !empty($_GET['course_id']) && absint($_GET['course_id']) ) {
+            $params['course_post_id'] = absint($_GET['course_id']);
+        }
+
+        if( !empty($_GET['module_id']) && absint($_GET['module_id']) ) {
+            $params['module_post_id'] = absint($_GET['module_id']);
+        }
+
+        if( !empty($_GET['track_id']) && absint($_GET['track_id']) ) {
+            $params['track_post_id'] = absint($_GET['track_id']);
+        }
+
+        if( !empty($_GET['date_begin']) ) {
+
+            // Dates period chosen as a str:
+            if(is_string($_GET['date_begin']) && mb_stripos($_GET['date_begin'], '-') !== false) {
+
+                $_GET['date_begin'] = array_slice(explode('-', $_GET['date_begin']), 0, 2);
+
+                if(count($_GET['date_begin']) === 2) { // The date is set as an interval
+                    $params['module_start_date'] = [trim($_GET['date_begin'][0]), trim($_GET['date_begin'][1])];
+                }
+
+            } else if(is_array($_GET['date_begin']) && count($_GET['date_begin']) === 2) { // The date is set as an interval
+                $params['module_start_date'] = [trim($_GET['date_begin'][0]), trim($_GET['date_begin'][1])];
+            } else { // Single date chosen
+                $params['module_start_date'] = trim($_GET['date_begin']);
+            }
+
+        }
+
+        if( !empty($_GET['date_end']) ) {
+
+            // Dates period chosen as a str:
+            if(is_string($_GET['date_end']) && mb_stripos($_GET['date_end'], '-') !== false) {
+
+                $_GET['date_end'] = array_slice(explode('-', $_GET['date_end']), 0, 2);
+
+                if(count($_GET['date_end']) === 2) { // The date is set as an interval
+                    $params['module_end_date'] = [trim($_GET['date_end'][0]), trim($_GET['date_end'][1])];
+                }
+
+            } else if(is_array($_GET['date_end']) && count($_GET['date_end']) === 2) { // The date is set as an interval
+                $params['module_end_date'] = [trim($_GET['date_end'][0]), trim($_GET['date_end'][1])];
+            } else { // Single date chosen
+                $params['module_end_date'] = trim($_GET['date_end']);
+            }
+
+        }
+
+        if($filter_type !== 'count' && !empty($_GET['orderby']) && !empty($_GET['order']) ) {
+
+            switch($_GET['orderby']) {
+                case 'user_name':
+                case 'display_name':
+                    $params['order_by'] = 'display_name';
+                    break;
+                case 'email':
+                case 'user_email':
+                    $params['order_by'] = 'user_email';
+                    break;
+                case 'date_start':
+                case 'date_begin':
+                    $params['order_by'] = 'module_start_date';
+                    break;
+                case 'date_finish':
+                case 'date_end':
+                    $params['order_by'] = 'module_end_date';
+                    break;
+                default:
+                    $params['order_by'] = 'ID';
+            }
+
+            $params['order'] = $_GET['order'];
+
+        }
 
         return $params;
 
@@ -47,16 +124,12 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
      */
     protected static function _get_items($per_page, $page_number = 1) {
 
-//        $params = ['orderby' => 'id', 'order' => 'desc',];
-//        if(empty($per_page)) {
-//            $params['get_all'] = true;
-//        } else {
-//            $params = $params + ['results_limit' => absint($per_page), 'page' => absint($page_number),];
-//        }
-//
-//        return get_posts($params);
-
-        return [];
+        return tps_get_user_activity_modules(
+            apply_filters('leyka_admin_users_activity_modules_list_filter', [
+                'per_page' => $per_page,
+                'page_number' => $page_number,
+            ])
+        );
 
     }
 
@@ -75,10 +148,9 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
     public static function get_items_count() {
 
         if(self::$_items_count === NULL) {
-            self::$_items_count = 0;
-//             = WP_Query(
-//                apply_filters('leyka_admin_users_activity_modules_list_filter', [], 'get_users_activity_modules_items_count')
-//            );
+            self::$_items_count = tps_get_user_activity_modules(apply_filters(
+                'leyka_admin_users_activity_modules_list_filter', [], 'count'
+            ), true);
         }
 
         return self::$_items_count;
@@ -87,7 +159,7 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
     /** Text displayed when no data is available. */
     public function no_items() {
-        _e('No records avaliable.', 'leyka');
+        echo 'Нет данных';
     }
 
 //    public function single_row($item) {
@@ -106,7 +178,7 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
     public function get_columns() {
 
         $columns = [
-            'cb' => '<input type="checkbox">',
+//            'cb' => '<input type="checkbox">',
             'id' => __('ID'),
             'user_name' => 'Имя пользователя',
             'user_email' => 'Email пользователя',
@@ -115,7 +187,7 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
             'date_end' => 'Модуль завершён',
         ];
 
-        return apply_filters('leyka_admin_users_activity_modules_columns_names', $columns);
+        return apply_filters('tps_admin_users_activity_modules_columns_names', $columns);
 
     }
 
@@ -129,6 +201,10 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
     public function get_sortable_columns() {
         return [
             'id' => ['id', true],
+            'user_name' => ['user_name', true],
+            'user_email' => ['user_email', true],
+            'date_begin' => ['date_begin', true],
+            'date_end' => ['date_end', true],
         ];
     }
 
@@ -139,14 +215,31 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
      * @param string $column_id
      * @return mixed
      */
-    public function column_default($donation, $column_id) {
+    public function column_default($item, $column_id) {
 
         switch($column_id) {
             case 'id':
+                return $item['ID'];
+            case 'user_name':
+                return empty($item['display_name']) ? 'Имя пользователя неизвестно' : $item['display_name'];
+            case 'user_email':
+                return empty($item['user_email']) ? 'Email неизвестен' : $item['user_email'];
+            case 'date_begin':
+                return empty($item['module_start_date']) ? '-' : date('d.m.Y, H:i', strtotime($item['module_start_date']));
+            case 'date_end':
+                return empty($item['module_end_date']) ? '-' : date('d.m.Y, H:i', strtotime($item['module_end_date']));
             default:
         }
 
         return '';
+
+    }
+
+    public function column_module($item) { /** @var $item array */
+
+        $module_post = get_post($item['module_post_id']);
+
+        return apply_filters('tps_admin_users_activity_modules_module_column_content', $module_post ? $module_post->post_title : '', $item);
 
     }
 
@@ -155,18 +248,92 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
      *
      * @param string $which "top" from the upper panel or "bottom" for footer.
      */
-    protected function extra_tablenav($which) { // The table filters are external - no need for them here
-        /** @todo Table filters are displayed here */
-    }
+    protected function extra_tablenav($which) {
 
-//    protected function get_views() {
-//
-//        $base_page_url = admin_url('admin.php?page=leyka_donations');
-//        $links = ['all' => '<a href="'.$base_page_url.'">'.__('All').'</a>',];
-//
-//        return $links;
-//
-//    }
+        if($which !== 'top') {
+            return;
+        }?>
+
+        <div class="alignleft actions">
+
+            <?php $tracks = Track::get_list(['orderby' => 'title', 'order' => 'ASC',]);?>
+            <span class="tps-field-wrapper">
+                <select name="track_id">
+                    <option value="">Трек</option>
+                    <?php foreach($tracks as $track) {?>
+                        <option value="<?php echo $track->ID;?>" <?php echo isset($_GET['track_id']) && $_GET['track_id'] == $track->ID ? 'selected' : '';?>>
+                            <?php echo $track->post_title;?>
+                        </option>
+                    <?php }?>
+                </select>
+            </span>
+
+            <?php $courses = Course::get_list(['orderby' => 'title', 'order' => 'ASC',]);?>
+            <span class="tps-field-wrapper">
+                <select name="course_id">
+                    <option value="">Курс</option>
+                    <?php foreach($courses as $course) {?>
+                        <option value="<?php echo $course->ID;?>" <?php echo isset($_GET['course_id']) && $_GET['course_id'] == $course->ID ? 'selected' : '';?>>
+                            <?php echo $course->post_title;?>
+                        </option>
+                    <?php }?>
+                </select>
+            </span>
+
+            <?php $modules = Module::get_list(['orderby' => 'title', 'order' => 'ASC',]);?>
+            <span class="tps-field-wrapper">
+                <select name="module_id">
+                    <option value="">Модуль</option>
+                    <?php foreach($modules as $module) {?>
+                        <option value="<?php echo $module->ID;?>" <?php echo isset($_GET['module_id']) && $_GET['module_id'] == $module->ID ? 'selected' : '';?>>
+                            <?php echo $module->post_title;?>
+                        </option>
+                    <?php }?>
+                </select>
+            </span>
+
+            <span class="tps-field-wrapper">
+                <?php $value = '';
+                if(isset($_GET['date_begin']) && is_array($_GET['date_begin'])) {
+                    $value = esc_attr($_GET['date_begin'][0].'-'.$_GET['date_begin'][1]);
+                } else if(isset($_GET['date_begin']) && is_string($_GET['date_begin'])) {
+                    $value = esc_attr($_GET['date_begin']);
+                }?>
+                <span class="tps-field-content">
+                    <input type="text" name="date_begin" autocomplete="off" class="tps-datepicker-ranged-selector" value="<?php echo $value;?>" placeholder="Дата начала (от/до)">
+                </span>
+            </span>
+
+            <span class="tps-field-wrapper">
+                <?php $value = '';
+                if(isset($_GET['date_end']) && is_array($_GET['date_end'])) {
+                    $value = esc_attr($_GET['date_end'][0].'-'.$_GET['date_end'][1]);
+                } else if(isset($_GET['date_end']) && is_string($_GET['date_end'])) {
+                    $value = esc_attr($_GET['date_end']);
+                }?>
+                <span class="tps-field-content">
+                    <input type="text" name="date_end" autocomplete="off" class="tps-datepicker-ranged-selector" value="<?php echo $value;?>" placeholder="Дата завершения (от/до)">
+                </span>
+            </span>
+
+
+
+            <?php submit_button('Фильтр', '', 'filter_action', false, array( 'id' => 'post-query-submit'));?>
+
+        </div>
+
+
+
+    <?php }
+
+    protected function get_views() {
+
+        $base_page_url = admin_url('admin.php?page=leyka_donations');
+        $links = ['all' => '<a href="'.$base_page_url.'">'.__('All').'</a>',];
+
+        return $links;
+
+    }
 
     /**
      * Data query, filtering, sorting & pagination handler.
@@ -177,7 +344,7 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
         $this->process_bulk_action();
 
-        $per_page = $this->get_items_per_page('admin_users_activity_modules_per_page');
+        $per_page = $this->get_items_per_page('admin_users_activity_modules_items_per_page');
 
         $this->set_pagination_args(['total_items' => self::get_items_count(), 'per_page' => $per_page,]);
 

@@ -52,9 +52,26 @@ function assignment_posts_filter( $query ){
     //var_dump($query);
     global $pagenow;
 
-    if ( $_GET['post_type'] == \Teplosocial\models\Assignment::$post_type && is_admin() && $pagenow=='edit.php' && $_GET['tps_assignment_declined'] && $query->is_main_query()) {
+    if(empty($_GET['post_type'])) {
+        return;
+    }
+
+    if (
+        $_GET['post_type'] == \Teplosocial\models\Assignment::$post_type
+        && is_admin()
+        && $pagenow == 'edit.php'
+        && !empty($_GET['tps_assignment_declined'])
+        && $query->is_main_query()
+    ) {
         $query->set('meta_query', set_assignment_query_meta(\Teplosocial\models\Assignment::META_DECLINE_ASSIGNMENT, 1));
-    } elseif ( $_GET['post_type'] == \Teplosocial\models\Assignment::$post_type && is_admin() && $pagenow=='edit.php' && $_GET['tps_assignment_review'] && $query->is_main_query()){
+    } else if (
+        $_GET['post_type'] == \Teplosocial\models\Assignment::$post_type
+        && is_admin()
+        && $pagenow == 'edit.php'
+        && !empty($_GET['tps_assignment_review'])
+        && $query->is_main_query()
+    ) {
+
         $query->set('meta_query', array(
             'relation' => 'AND',
             array(
@@ -68,6 +85,7 @@ function assignment_posts_filter( $query ){
                 'compare' => 'NOT EXISTS'
             )
         ));
+
     }
 
 }

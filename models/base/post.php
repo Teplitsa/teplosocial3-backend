@@ -43,10 +43,11 @@ class Post
         }
 
         // error_log("get list params:" . print_r($args_with_defaults, true));
-        
-        $args_with_defaults += $args;
 
-        // error_log("get list params:" . print_r($args_with_defaults, true));
+//        $args_with_defaults += $args;
+        $args_with_defaults = array_merge($args_with_defaults, $args);
+
+        // error_log("get list params:" . print_r($args_with_defaults, true));.
 
         return get_posts($args_with_defaults);
     }

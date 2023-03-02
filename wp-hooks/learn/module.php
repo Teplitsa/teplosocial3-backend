@@ -7,6 +7,8 @@ use \Teplosocial\models\Course;
 use \Teplosocial\models\Track;
 use \Teplosocial\models\Certificate;
 
+require_once get_template_directory().'/admin/admin-utility-functions.php';
+
 class ModuleHooks {
     public static function handle_module_complete( $data ) {
         // error_log("handle_module_complete...");
@@ -29,6 +31,9 @@ class ModuleHooks {
 
         // error_log("module ID: " . $module->ID);
 
+        // The Module is completed - update the user activity in the Modules special table:
+        $result = tps_update_user_activity_modules($user_id, $module->ID);
+
         $course = Course::get_by_module($module->ID);
         if($course) {
             // error_log("block course:" . $course->post_name);
@@ -38,8 +43,13 @@ class ModuleHooks {
                 $uncompleted_course_module = Course::get_first_uncompleted_module($course->ID, $user_id);
                 // error_log("uncompleted_course_module:" . ($uncompleted_course_module ? $uncompleted_course_module->post_name : ""));
                 if(!$uncompleted_course_module) {
+
                     Course::complete_by_user($course->ID, $user_id);
                     $completedCourse = $course;
+
+                    // The Course is completed - update the user activity in the Courses special table:
+                    $result = tps_update_user_activity_courses($user_id, $course->ID);
+
                 }
             }
         }
@@ -48,11 +58,17 @@ class ModuleHooks {
             // error_log("block track:" . $track->post_name);
 
             if($completedCourse) {
+
                 $uncompleted_track_course = Track::get_first_uncompleted_course($track->ID, $user_id);
                 // error_log("uncompleted_track_course:" . ($uncompleted_track_course ? $uncompleted_track_course->post_name : ""));
-                if(!$uncompleted_track_course) {
+                if( !$uncompleted_track_course ) {
+
                     Track::complete_by_user($track->ID, $user_id);
                     $completedTrack = $track;
+
+                    // The Track is completed - update the user activity in the Tracks special table:
+                    $result = tps_update_user_activity_tracks($user_id, $track->ID);
+
                 }
             }
         }
@@ -68,3 +84,13 @@ class ModuleHooks {
 }
 
 add_action("learndash_course_completed", '\Teplosocial\hooks\ModuleHooks::handle_module_complete', 5, 1);
+
+// TMP DBG:
+if(isset($_GET['tst'])) {
+    add_action('init', function(){
+
+//        $res = tps_update_user_activity_modules(get_current_user_id(), 22112);
+//        echo '<pre>HERE: '.print_r((int)$res, 1).'</pre>';
+
+    });
+}

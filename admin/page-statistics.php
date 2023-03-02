@@ -19,6 +19,7 @@
                 $tps_stats_date_total_period_start_timestamp = $tps_stats_date_total_period_start ?
                     strtotime($tps_stats_date_total_period_start) : strtotime('2022-10-01 00:00:00');
                 ?>
+
                 <div class="tps-field-wrapper">
                     <label for="tps-stats-date-total-period-start">Начало общего периода подсчёта</label>
                     <div class="tps-field-content">
