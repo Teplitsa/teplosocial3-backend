@@ -128,10 +128,12 @@ function tps_get_user_activity_modules(array $activity_data, $query_count = fals
 
     }
 
-    $activity_data['per_page'] = empty($activity_data['per_page']) ? 20 : absint($activity_data['per_page']);
+    $activity_data['per_page'] = empty($activity_data['per_page']) || $activity_data['per_page'] === -1 ?
+        false : absint($activity_data['per_page']);
     $activity_data['page_number'] = empty($activity_data['page_number']) ? 1 : absint($activity_data['page_number']);
 
-    $limit = $query_count ? '' : 'LIMIT '.( (($activity_data['page_number']-1)*$activity_data['per_page']).', '.$activity_data['per_page'] );
+    $limit = $query_count || !$activity_data['per_page'] ?
+        '' : 'LIMIT '.( (($activity_data['page_number']-1)*$activity_data['per_page']).', '.$activity_data['per_page'] );
 
     $sql = $wpdb->prepare(
         "SELECT $select_fields FROM $join WHERE $line_where ".($query_count ? '' : " ORDER BY $order_by $order")." $limit",
@@ -331,5 +333,45 @@ function tps_update_user_activity_tracks($user_id, $track_post_id, array $activi
     }
 
     return $result > 0;
+
+}
+
+/** Service function to prepare a singular object data value for export as a CSV cell. */
+function tps_export_data_prepare($text) {
+    return str_replace(['"'], [''], $text);
+}
+
+function tps_generate_csv($filename, array $rows, array $headings = [], $column_sep = "\t", $line_sep = "\n") {
+
+    // 1. Use tab as column separator:
+    $fputcsv = count($headings) ? '"'.implode('"'.$column_sep.'"', $headings).'"'.$line_sep : '';
+
+    // 2. Loop over the * to export:
+    if($rows) {
+        foreach($rows as $row_array) {
+
+            array_walk($row_array, function(&$item){ $item = tps_export_data_prepare($item); });
+
+            $fputcsv .= '"'.implode('"'.$column_sep.'"', $row_array).'"'.$line_sep;
+
+        }
+    }
+
+    // 3. Output CSV-specific headers:
+    header('Content-type: application/vnd.ms-excel');
+    header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Pragma: no-cache');
+    header('Content-Disposition: attachment; filename="'.$filename.'.csv"');
+
+    echo chr(255)
+        .chr(254)
+        .mb_convert_encoding( // 4. PHP array, converted to string - encode it into UTF-16
+            $fputcsv,
+            apply_filters('leyka_export_content_charset', 'UTF-16LE'),
+            'UTF-8'
+        );
+
+    exit;
 
 }

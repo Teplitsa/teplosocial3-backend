@@ -45,26 +45,31 @@ class Tps_Admin_Setup {
 
         do_action('tps_pre_users_activity_modules_list_actions');?>
 
-        <h1 class="wp-heading-inline">Активность студентов - модули</h1>
+        <div class="wrap">
 
-        <div id="poststuff">
-        <div>
+            <h1 class="wp-heading-inline">Активность студентов - модули</h1>
+            <a href="<?php echo admin_url(sprintf('admin.php?%s', http_build_query($_GET))).'&export=1';?>" class="page-title-action">Экспорт</a>
 
-            <div id="post-body-content" class="<?php if(self::$_users_activity_modules_list_table->get_items_count() === 0) {?>empty-list<?php }?>">
-                <div class="meta-box-sortables ui-sortable">
-                    <form method="get" action="#">
+            <div id="poststuff">
+            <div>
 
-                        <input type="hidden" name="page" value="tps_users_activity_modules">
+                <div id="post-body-content" class="<?php if(self::$_users_activity_modules_list_table->get_items_count() === 0) {?>empty-list<?php }?>">
+                    <div class="meta-box-sortables ui-sortable">
+                        <form method="get" action="#">
 
-                        <?php self::$_users_activity_modules_list_table->prepare_items();
-                        self::$_users_activity_modules_list_table->display();
+                            <input type="hidden" name="page" value="tps_users_activity_modules">
 
-                        if(self::$_users_activity_modules_list_table->has_items()) {
-                            self::$_users_activity_modules_list_table->bulk_edit_fields();
-                        }?>
+                            <?php self::$_users_activity_modules_list_table->prepare_items();
+                            self::$_users_activity_modules_list_table->display();
 
-                    </form>
+                            if(self::$_users_activity_modules_list_table->has_items()) {
+                                self::$_users_activity_modules_list_table->bulk_edit_fields();
+                            }?>
+
+                        </form>
+                    </div>
                 </div>
+
             </div>
 
         </div>

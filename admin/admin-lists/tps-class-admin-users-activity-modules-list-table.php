@@ -21,7 +21,7 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
         add_filter('leyka_admin_users_activity_modules_list_filter', [$this, 'filter_items'], 10, 2);
 
-        if( !empty($_REQUEST['list-export']) ) {
+        if( !empty($_GET['export']) ) {
             $this->_export();
         }
 
@@ -122,14 +122,24 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
      * @param int $page_number
      * @return mixed
      */
-    protected static function _get_items($per_page, $page_number = 1) {
+    protected static function _get_items($per_page = false, $page_number = 1) {
 
-        return tps_get_user_activity_modules(
+//        if( !$per_page ) {
+//            $per_page = false;
+//        }
+
+        $user_activity_rows = tps_get_user_activity_modules(
             apply_filters('leyka_admin_users_activity_modules_list_filter', [
                 'per_page' => $per_page,
                 'page_number' => $page_number,
             ])
         );
+
+        foreach($user_activity_rows as &$row) {
+            $row['module_post_title'] = get_the_title($row['module_post_id']);
+        }
+
+        return $user_activity_rows;
 
     }
 
@@ -224,6 +234,8 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
                 return empty($item['display_name']) ? 'Имя пользователя неизвестно' : $item['display_name'];
             case 'user_email':
                 return empty($item['user_email']) ? 'Email неизвестен' : $item['user_email'];
+            case 'module':
+                return $item['module_post_title'];
             case 'date_begin':
                 return empty($item['module_start_date']) ? '-' : date('d.m.Y, H:i', strtotime($item['module_start_date']));
             case 'date_end':
@@ -235,13 +247,9 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
     }
 
-    public function column_module($item) { /** @var $item array */
-
-        $module_post = get_post($item['module_post_id']);
-
-        return apply_filters('tps_admin_users_activity_modules_module_column_content', $module_post ? $module_post->post_title : '', $item);
-
-    }
+//    public function column_module($item) { /** @var $item array */
+//        return apply_filters('tps_admin_users_activity_modules_module_column_content', '', $item);
+//    }
 
     /**
      * Table filters panel.
@@ -420,34 +428,26 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
 
         ob_start();
 
-        $this->items = apply_filters('tps_admin_users_activity_modules_pre_export', self::_get_items(false));
+        $this->items = apply_filters('tps_admin_users_activity_modules_pre_export', self::_get_items());
 
         ob_clean();
 
         $columns = [
-//            'ID', 'Имя донора', 'Email', 'Тип платежа', 'Плат. оператор', 'Способ платежа', 'Полная сумма', 'Итоговая сумма', 'Валюта', 'Дата пожертвования', 'Статус', 'Кампания', 'Назначение', 'Подписка на рассылку', 'Email подписки', 'Комментарий',
+            'ID', 'Имя пользователя', 'Email пользователя', 'Модуль', 'Дата начала', 'Дата завершения',
         ];
 
         $rows = [];
+//        echo '<pre>'.print_r($this->items, 1).'</pre>';
+//        return;
         foreach($this->items as $item) {
 
             $row = [
-//                $item->id,
-//                $item->donor_name,
-//                $item->donor_email,
-//                $item->payment_type_label,
-//                $item->gateway_label,
-//                $item->payment_method_label,
-//                str_replace('.', ',', $item->amount),
-//                str_replace('.', ',', $item->amount_total),
-//                $currency,
-//                $item->date_time_label,
-//                $item->status_label,
-//                $campaign->title,
-//                $campaign->payment_title,
-//                $donor_subscription,
-//                $item->donor_subscription_email,
-//                $item->donor_comment,
+                $item['ID'],
+                $item['display_name'],
+                $item['user_email'],
+                $item['module_post_title'],
+                $item['module_start_date'],
+                $item['module_end_date'],
             ];
 
             $rows[] = apply_filters('tps_admin_users_activity_modules_export_line', $row, $item);
@@ -455,11 +455,11 @@ class Tps_Admin_Users_Activity_Modules_List_Table extends WP_List_Table {
         }
 
         // It will exit automatically:
-//        tps_generate_csv( /** @todo Get from Leyka - the leyka_generate_csv() function */
-//            'donations-'.date( get_option('date_format').'-'.str_replace([':'], ['.'], get_option('time_format')) ),
-//            apply_filters('tps_admin_users_activity_modules_export_rows', $rows),
-//            apply_filters('tps_admin_users_activity_modules_export_headers', $columns)
-//        );
+        tps_generate_csv(
+            'user-activity-modules-'.date( get_option('date_format').'-'.str_replace([':'], ['.'], get_option('time_format')) ),
+            apply_filters('tps_admin_users_activity_modules_export_rows', $rows),
+            apply_filters('tps_admin_users_activity_modules_export_headers', $columns)
+        );
 
     }
 
