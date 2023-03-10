@@ -21,7 +21,10 @@ class Tps_Admin_Setup {
 
     /** @var WP_List_Table */
     protected static $_users_activity_modules_list_table = null;
+    protected static $_users_activity_log_list_table = null;
 
+    // WARNING: currently not in use in the admin area (mb, will be used later):
+    // Users activity: Users Modules page options:
     public static function users_activity_modules_list_screen_options() {
 
         add_screen_option('per_page', [
@@ -78,6 +81,63 @@ class Tps_Admin_Setup {
 
     }
     // Users activity: Users Modules display - END
+    // WARNING: currently not in use in the admin area (mb, will be used later) - END
+
+    public static function users_activity_log_screen_options() {
+
+        add_screen_option('per_page', [
+            'label' => 'Строк на странице',
+            'default' => 20,
+            'option' => 'admin_users_activity_log_items_per_page',
+        ]);
+
+        require_once get_template_directory().'/admin/admin-lists/tps-class-admin-users-activity-log-list-table.php';
+
+        self::$_users_activity_log_list_table = new Tps_Admin_Users_Activity_Log_List_Table();
+
+    }
+
+    // Users activity: Users activity log display:
+    public static function users_activity_log_screen() {
+
+        if( !current_user_can('manage_options') ) {
+            wp_die(__('You do not have permissions to access this page.', 'leyka'));
+        }
+
+        do_action('tps_pre_users_activity_log_actions');?>
+
+        <div class="wrap">
+
+            <h1 class="wp-heading-inline">Активность студентов - журнал</h1>
+            <a href="<?php echo admin_url(sprintf('admin.php?%s', http_build_query($_GET))).'&export=1';?>" class="page-title-action">Экспорт</a>
+
+            <div id="poststuff">
+            <div>
+
+                <div id="post-body-content" class="<?php if(self::$_users_activity_log_list_table->get_items_count() === 0) {?>empty-list<?php }?>">
+                    <div class="meta-box-sortables ui-sortable">
+                        <form method="get" action="#">
+
+                            <input type="hidden" name="page" value="tps_users_activity_log">
+
+                            <?php self::$_users_activity_log_list_table->prepare_items();
+                            self::$_users_activity_log_list_table->display();
+
+                            if(self::$_users_activity_log_list_table->has_items()) {
+                                self::$_users_activity_log_list_table->bulk_edit_fields();
+                            }?>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <?php do_action('tps_post_users_activity_log_actions');
+
+    }
 
 }
 
@@ -114,15 +174,25 @@ function tps_menu_setup() {
         'tps_admin_statistics_page_display',
     );
 
+//    $hook = add_submenu_page(
+//        'learndash-lms',
+//        'Активность - модули',
+//        'Активность - модули',
+//        'manage_options',
+//        'tps_users_activity_modules',
+//        ['Tps_Admin_Setup', 'users_activity_modules_list_screen'],
+//    );
+//    add_action("load-$hook", ['Tps_Admin_Setup', 'users_activity_modules_list_screen_options']);
+
     $hook = add_submenu_page(
         'learndash-lms',
-        'Активность - модули',
-        'Активность - модули',
+        'Активность - журнал',
+        'Активность - журнал',
         'manage_options',
-        'tps_users_activity_modules',
-        ['Tps_Admin_Setup', 'users_activity_modules_list_screen'],
+        'tps_users_activity_log',
+        ['Tps_Admin_Setup', 'users_activity_log_screen'],
     );
-    add_action("load-$hook", ['Tps_Admin_Setup', 'users_activity_modules_list_screen_options']);
+    add_action("load-$hook", ['Tps_Admin_Setup', 'users_activity_log_screen_options']);
 
 }
 add_action('admin_menu', 'tps_menu_setup', 50);
@@ -163,7 +233,10 @@ add_action( 'admin_enqueue_scripts', 'tps_load_admin_scripts', 30 );
 // For Datepickers:
 add_action('admin_enqueue_scripts', function(){
 
-    if(isset($_GET['page']) && in_array($_GET['page'], ['tps_statistics', 'tps_users_activity_modules', 'tps_users_activity_courses', 'tps_users_activity_tracks',])) {
+    if(
+        isset($_GET['page'])
+        && in_array($_GET['page'], ['tps_statistics', 'tps_users_activity_modules', 'tps_users_activity_log',])
+    ) {
 
         wp_enqueue_script('jquery-ui-datepicker');
         wp_enqueue_script(
@@ -188,7 +261,10 @@ add_action('admin_enqueue_scripts', function(){
 
 function tps_admin_stats_footer_scripts() {
 
-    if(isset($_GET['page']) && in_array($_GET['page'], ['tps_statistics', 'tps_users_activity_modules', 'tps_users_activity_courses', 'tps_users_activity_tracks',])) {?>
+    if(
+        isset($_GET['page'])
+        && in_array($_GET['page'], ['tps_statistics', 'tps_users_activity_modules', 'tps_users_activity_log',])
+    ) {?>
         <script type="text/javascript">
 
             jQuery(function($){
