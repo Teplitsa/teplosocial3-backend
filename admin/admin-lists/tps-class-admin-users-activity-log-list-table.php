@@ -38,7 +38,7 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
             $params['event_type'] = trim($_GET['event_type']);
         }
 
-        if( !empty($_GET['user_id']) && absint($_GET['user_id']) ) { /** @todo */
+        if( !empty($_GET['user_id']) && absint($_GET['user_id']) ) {
             $params['user_id'] = absint($_GET['user_id']);
         }
 
@@ -213,7 +213,6 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
      */
     public function column_default($item, $column_id) {
 
-        /** @todo */
         switch($column_id) {
             case 'id':
                 return $item['event_id'];
@@ -298,8 +297,11 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
                 </span>
             </span>
 
-            <?php $users = get_users(['orderby' => 'display_name', 'order' => 'ASC', 'fields' => ['ID', 'display_name'],]);?>
             <span class="tps-field-wrapper">
+                <input type="text" name="user_id" autocomplete="off" class="" value="<?php echo isset($_GET['user_id']) && absint($_GET['user_id']) ? absint($_GET['user_id']) : '';?>" placeholder="ID пользователя">
+
+                <?php /*?>
+                <?php $users = get_users(['orderby' => 'display_name', 'order' => 'ASC', 'fields' => ['ID', 'display_name'],]);?>
                 <select name="user_id">
                     <option value="">Пользователь</option>
                     <?php foreach($users as $user) {?>
@@ -308,6 +310,8 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
                         </option>
                     <?php }?>
                 </select>
+                <?php */?>
+
             </span>
 
             <?php $modules = Module::get_list(['orderby' => 'title', 'order' => 'ASC',]);
@@ -465,7 +469,7 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
         ob_clean();
 
         $columns = [
-            'ID события', 'Дата события', 'Тип события', 'Тип контента', 'ID пользователя', 'Имя пользователя', 'Email пользователя', 'ID единицы контента', 'Название единицы контента', /*'ID род. единицы контента', 'Название род. единицы контента',*/
+            'ID события', 'Дата события', 'Тип события', 'Тип контента', 'ID пользователя', /*'Имя пользователя', 'Email пользователя',*/ 'ID единицы контента', 'Название единицы контента', 'ID род. единицы контента', 'Название род. единицы контента',
         ];
 
         $rows = [];
@@ -473,16 +477,31 @@ class Tps_Admin_Users_Activity_Log_List_Table extends WP_List_Table {
 //        return;
         foreach($this->items as $item) {
 
+            $parent_post = false;
+            switch(tps_get_user_activity_content_type_by_log_key($item['event_type_id'])) {
+                case 'Модуль': $parent_post = Course::get_by_module($item['content_unit_id']); break;
+                case 'Курс': $parent_post = Track::get_by_course($item['content_unit_id']); break;
+                case 'Трек':
+                    $parent_post = 'Root';
+                default:
+
+            }
+
+            $parent_post_id = $parent_post ? ($parent_post === 'Root' ? $parent_post : $parent_post->ID) : '-';
+            $parent_post_title = $parent_post ? ($parent_post === 'Root' ? $parent_post : get_the_title($parent_post)) : '-';
+
             $row = [
                 $item['event_id'],
                 $item['date'],
                 $item['event_type'],
                 $item['content_type'],
                 $item['user_id'],
-                $item['display_name'],
-                $item['user_email'],
+//                $item['display_name'],
+//                $item['user_email'],
                 $item['content_unit_id'],
                 $item['content_unit_title'],
+                $parent_post_id,
+                $parent_post_title,
             ];
 
             $rows[] = apply_filters('tps_admin_users_activity_modules_export_line', $row, $item);
