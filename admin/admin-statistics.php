@@ -34,7 +34,7 @@ function tps_admin_statistics_page_display() {
         $stats = new Teplosocial\cli\Stats;
         $result_html = $stats->mail_weekly_stats([], [
             'date-from' => $_GET['tps_stats_date_from'],
-            'date-to' => $_GET['tps_stats_date_to'],
+            'date-to' => $_GET['tps_stats_date_to'], // "To" day itself is NOT going to be included
             'date-total-period-start' => $_GET['tps_stats_date_total_period_start'],
             'emails' => $_GET['tps_stats_results_emails'],
             'print-results' => false,

@@ -49,8 +49,8 @@ class UserStats extends Stats
                 WHERE
                     user_registered BETWEEN %s AND %s
                 SQL,
-                $mysql_date_from,
-                $mysql_date_to
+                $mysql_date_from.' 00:00:00',
+                $mysql_date_to.' 23:59:59'
             )
         );
 
@@ -323,8 +323,8 @@ class CertificateStats extends Stats
                     course_type = 'course'
                     AND moment BETWEEN %s AND %s
                 SQL,
-                $mysql_date_from,
-                $mysql_date_to
+                $mysql_date_from.' 00:00:00',
+                $mysql_date_to.' 23:59:59'
             )
         );
 

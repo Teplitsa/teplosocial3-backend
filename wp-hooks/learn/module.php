@@ -88,11 +88,17 @@ class ModuleHooks {
 add_action("learndash_course_completed", '\Teplosocial\hooks\ModuleHooks::handle_module_complete', 5, 1);
 
 // TMP DBG:
-if(isset($_GET['tst'])) {
+if(isset($_GET['tst-1'])) {
     add_action('init', function(){
 
 //        $res = tps_update_user_activity_modules(get_current_user_id(), 22112);
 //        echo '<pre>HERE: '.print_r((int)$res, 1).'</pre>';
+
+//        $user_id = 5702; // Алексей Курьянов
+//        $completed_course = get_post(18008); // Как сделать себе сайт бесплатно
+//        $sert_id = Certificate::save_certificate($user_id, $completed_course->post_title, Certificate::CERTIFICATE_TYPE_COURSE, ['course_id' => $completed_course->ID]);
+//
+//        echo '<pre>'.print_r('Trying to give the sert for the course "'.$completed_course->post_title.'" to user #'.$user_id.'. The new sert ID: '.$sert_id, 1).'</pre>';
 
     });
 }

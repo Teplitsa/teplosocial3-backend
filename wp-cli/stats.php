@@ -37,7 +37,7 @@ class Stats {
 //        $date_last_day_to_display = \Teplosocial\utils\get_yesterday_mysql_date();
 //        $date_to = \date('Y-m-d');
         $date_from = $assoc_args['date-from'];
-        $date_last_day_to_display = date( 'Y-m-d', strtotime('-1d', strtotime($assoc_args['date-to'])) );
+        $date_last_day_to_display = date( 'Y-m-d', strtotime('-1 day', strtotime($assoc_args['date-to'])) );
         $date_to = $assoc_args['date-to'];
         // Use in normal work mode - END
 
