@@ -1,7 +1,5 @@
 <?php
 
-use Teplosocial\models\Adaptest;
-
 require_once(get_theme_file_path() . '/vendor/autoload.php');
 require_once(get_theme_file_path() . '/config.common.php');
 require_once(get_theme_file_path() . '/config.php');
@@ -143,14 +141,3 @@ require_once(get_theme_file_path() . '/wp-hooks/notifications.php');
 
 // register shortcodes
 require_once(get_theme_file_path() . '/shortcodes/tooltip.php');
-
-add_action('admin_init', function(){
-
-    if(isset($_GET['tst'])) { // 24248 - Безопасность данных, или как придумывать надежные пароли
-
-        echo '<pre>'.print_r(get_post_meta(24248, '', true), 1).'</pre>';
-        echo '<pre>Adaptest: '.print_r(Adaptest::get_by_course(24248), 1).'</pre>';
-
-    }
-
-});
