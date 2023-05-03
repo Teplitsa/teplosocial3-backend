@@ -86,29 +86,34 @@ class AdaptestHooks
         return $setting_option_fields;
     }
 
-    // The field is removed in favor of the CMB2 field addition (wp-hooks/learn/quiz-types.php):
-    public static function filter_saved_fields( $settings_values = array(), $settings_metabox_key = '', $settings_screen_id = '' ) {
-        // error_log("_POST: " . print_r($_POST, true));
-        // error_log("settings_values: " . print_r($settings_values, true));
-
-        $quiz_id = get_the_ID();
-
-        if($quiz_id && !empty($_POST)) {
-            if(isset($_POST['learndash-quiz-access-settings'])) {
-                $course_id = intval($_POST['learndash-quiz-access-settings'][Adaptest::META_ADAPTEST_COURSE]);
-                Adaptest::set_course_adaptest($course_id, $quiz_id);
-
-                $duration = intval($_POST['learndash-quiz-access-settings'][Adaptest::META_ADAPTEST_DURATION]);
-                update_post_meta($quiz_id, Adaptest::META_ADAPTEST_DURATION, $duration);
-
-                if($course_id) {
-                    $settings_values['passingpercentage'] = 0;
-                }
-            }
-        }
-
-        return $settings_values;
-    }
+    // WARNING: the field is removed in favor of the CMB2 field addition (see wp-hooks/learn/quiz-types.php):
+//    public static function filter_saved_fields( $settings_values = array(), $settings_metabox_key = '', $settings_screen_id = '' ) {
+//        // error_log("_POST: " . print_r($_POST, true));
+//        // error_log("settings_values: " . print_r($settings_values, true));
+//
+//        $quiz_id = get_the_ID();
+//
+//        if($quiz_id && !empty($_POST)) {
+//
+//            if(isset($_POST['learndash-quiz-access-settings'])) {
+//
+//                $course_id = intval($_POST['learndash-quiz-access-settings'][Adaptest::META_ADAPTEST_COURSE]);
+//                Adaptest::set_course_adaptest($course_id, $quiz_id);
+//
+//                $duration = intval($_POST['learndash-quiz-access-settings'][Adaptest::META_ADAPTEST_DURATION]);
+//                update_post_meta($quiz_id, Adaptest::META_ADAPTEST_DURATION, $duration);
+//
+//                if($course_id) {
+//                    $settings_values['passingpercentage'] = 0;
+//                }
+//
+//            }
+//
+//        }
+//
+//        return $settings_values;
+//
+//    }
 
     public static function show_question_module_selector($question_id, $quiz_id, $quiz_pro_id) {
         if(!Adaptest::is_quiz_adaptest($quiz_id)) {

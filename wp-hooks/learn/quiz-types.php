@@ -146,7 +146,7 @@ class QuizTypesHooks {
 
     }
 
-    public static function save_metabox($quiz_post_id, $quiz_post, $update) {
+//    public static function save_metabox($quiz_post_id, $quiz_post, $update) {
 
 //        $block = Block::get($post_id);
 //
@@ -162,24 +162,29 @@ class QuizTypesHooks {
 //            return;
 //        }
 
-    }
+//    }
 
     // Quiz type field - saving:
-//    public static function filter_saved_fields($settings_values = array()) {
-//
-//        $quiz_post_id = get_the_ID();
-//
-//        if($quiz_post_id && !empty($_POST) && !empty($_POST['learndash-quiz-access-settings'])) {
-//
-//            $value = esc_attr($_POST['learndash-quiz-access-settings']['tps_quiz_type']);
-//
-//            update_post_meta($quiz_post_id, 'tps_quiz_type', $value);
-//
-//        }
-//
-//        return $settings_values;
-//
-//    }
+    public static function filter_saved_fields($settings_values = array()) {
+
+        $quiz_post_id = get_the_ID();
+
+        if($quiz_post_id && !empty($_POST['tps_quiz_type'])) {
+
+            if($_POST['tps_quiz_type'] === 'adaptest') { // Adaptest-specific fields saving & additional actions relevant to them
+
+                $course_id = absint($_POST['tps_adaptest_course']);
+                if($course_id) {
+                    Adaptest::set_course_adaptest($course_id, $quiz_post_id);
+                }
+
+            }
+
+        }
+
+        return $settings_values;
+
+    }
 
     /*
     public static function show_question_module_selector($question_id, $quiz_id, $quiz_pro_id) {
@@ -333,8 +338,8 @@ class QuizTypesHooks {
 // add_filter( 'learndash_settings_fields', '\Teplosocial\hooks\AdaptestHooks::init_quiz_adaptest_option', 1, 2 );
 //add_filter('learndash_settings_fields', '\Teplosocial\hooks\QuizTypesHooks::init_quiz_type_field', 1, 2);
 add_action('cmb2_admin_init', '\Teplosocial\hooks\QuizTypesHooks::init_metabox');
-add_action('save_post', '\Teplosocial\hooks\QuizTypesHooks::save_metabox', 50, 3);
-//add_filter('learndash_metabox_save_fields_learndash-quiz-admin-data-handling-settings', '\Teplosocial\hooks\QuizTypesHooks::filter_saved_fields', 1);
+//add_action('save_post', '\Teplosocial\hooks\QuizTypesHooks::save_metabox', 50, 3);
+add_filter('learndash_metabox_save_fields_learndash-quiz-admin-data-handling-settings', '\Teplosocial\hooks\QuizTypesHooks::filter_saved_fields', 1);
 
 //add_action( 'tps_show_question_custom_metabox', '\Teplosocial\hooks\AdaptestHooks::show_question_module_selector', 1, 3 );
 //add_action( 'tps_save_question', '\Teplosocial\hooks\AdaptestHooks::save_quiz_question_module', 10, 1 );
