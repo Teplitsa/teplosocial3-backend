@@ -7,6 +7,12 @@ use \Teplosocial\models\Student;
 use \Teplosocial\models\Course;
 use \Teplosocial\models\StudentLearning;
 
+//Hook our function , wi_create_backup(), into the action wi_create_daily_backup
+add_action( 'wi_create_daily_backup', 'wi_create_backup' );
+function wi_create_backup(){
+    //Run code to create backup.
+}
+
 if ( isset($_GET['action'] ) && $_GET['action'] == 'download_csv' )  {
     add_action( 'admin_init', 'csv_export' );
 }

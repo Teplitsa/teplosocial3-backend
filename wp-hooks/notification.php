@@ -2,6 +2,7 @@
 
 use Teplosocial\Config;
 use Teplosocial\models\Student;
+use \Teplosocial\cli;
 
 function tps_emails_set_html_content_type() {
     return 'text/html';
@@ -218,7 +219,7 @@ function tps_notify_on_assignment_approved($assignment_id) {
         'mailto' => $assignment_uploading_gamer->user_email,
         'email_placeholders' => [
             '{user_first_name}' => $user_first_name,
-            '{comment}' => $comment_data['comment_content'],
+            '{comment}' => '', // $comment_data['comment_content'],
             '{course_link}' => $assignment_course_link,
             '{block_link}' => $assignment_block_link,
             '{assignment_link}' => '<a href="'.get_permalink($assignment_post).'">'.get_the_title($assignment_post).'</a>',
@@ -237,3 +238,21 @@ function tps_change_mail_from_name($from_name) {
     return get_bloginfo('name');
 }
 add_filter('wp_mail_from_name', 'tps_change_mail_from_name');
+
+// WP_Cron task to send the 2nd onboarding email to all newly registered users:
+add_action('init', function(){
+
+    if( !wp_next_scheduled('tps_send_onboarding_faq_action') ) {
+        wp_schedule_event(time(), 'daily', 'tps_send_onboarding_faq_action');
+    }
+
+});
+
+add_action('tps_send_onboarding_faq_action', 'tps_send_onboarding_faq');
+function tps_send_onboarding_faq() {
+
+    $notificator = new cli\Notificator();
+    $notificator->notify_onboarding_faq([], []);
+
+}
+// WP_Cron task - END
