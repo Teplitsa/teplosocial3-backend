@@ -5,14 +5,14 @@ namespace Teplosocial\cli;
 use Teplosocial\models\{Student};
 
 
-if (!class_exists('WP_CLI')) {
+if( !class_exists('WP_CLI') ) {
     return;
 }
 
 class Notificator
 {
-    public function notify_onboarding_faq($args, $assoc_args)
-    {
+    public function notify_onboarding_faq($args, $assoc_args) {
+
         $users = get_users([
             'date_query' => [
                 'relation' => 'AND',
@@ -29,12 +29,20 @@ class Notificator
         ]);
 
         foreach($users as $user) {
-            \WP_CLI::log("user: " . $user->user_email);
+
+            if(class_exists('WP_CLI')) {
+                \WP_CLI::log("user: " . $user->user_email);
+            }
+
             self::mail_onboarding_faq($user);
             add_user_meta($user->ID, Student::META_ONBOARDING_FAQ_SENT, true, true);
+
         }
 
-        \WP_CLI::success(__('Onboarding faq sent.', 'tps'));
+        if(class_exists('WP_CLI')) {
+            \WP_CLI::success(__('Onboarding faq sent.', 'tps'));
+        }
+
 
     }
 
