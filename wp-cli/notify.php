@@ -46,7 +46,7 @@ class Notificator
 
     }
 
-    private static function mail_onboarding_faq($user) {
+    public static function mail_onboarding_faq($user) {
 
         $user_first_name = get_user_meta($user->ID, Student::META_FIRST_NAME, true);
         $user_first_name = $user_first_name ? : $user->user_firstname;
