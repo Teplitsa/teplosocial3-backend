@@ -256,3 +256,37 @@ function tps_send_onboarding_faq() {
 
 }
 // WP_Cron task - END
+
+//add_action('admin_init', function(){
+//
+//    if(isset($_GET['tst'])) {
+//
+////        $user = get_user_by_email('Test2@kingsite.pro');
+//        $users = get_users([
+//            'date_query' => [
+//                'relation' => 'AND',
+//                ['before' => '24 hours ago', 'inclusive' => true],
+//                ['after' => '72 hours ago', 'inclusive' => false],
+//            ],
+//            'meta_query' => [
+//                'relation' => 'OR',
+//                [
+//                    'key'     => Student::META_ONBOARDING_FAQ_SENT,
+//                    'compare' => 'NOT EXISTS',
+//                ],
+//            ],
+//        ]);
+//
+////        echo '<pre>Users found: '.print_r($users, 1).'</pre>';
+//        foreach($users as $user) {
+//
+//            if($user->ID === 5892) {
+//                Teplosocial\cli\Notificator::mail_onboarding_faq($user);
+//                add_user_meta($user->ID, Student::META_ONBOARDING_FAQ_SENT, true, true);
+//            }
+////            echo '<pre>User ID: '.$user->ID.', 2nd email sent: '.print_r((int)get_user_meta($user->ID, 'tps_onboarding_faq_sent', true), 1).'</pre>';
+//        }
+//
+//    }
+//
+//});

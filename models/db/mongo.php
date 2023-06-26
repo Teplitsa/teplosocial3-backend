@@ -31,7 +31,7 @@ final class MongoClient
     {
     }
 
-    private function __wakeup()
+    public function __wakeup()
     {
     }
 }
