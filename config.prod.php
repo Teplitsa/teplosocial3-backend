@@ -8,10 +8,10 @@ class Config extends ConfigCommon {
     const MONGO_CONNECTION = 'mongodb://localhost:27017';
     
     const STATS_EXTRA_EMAILS = [
-        'kartsov@te-st.ru',
-        'avdeeva.nataliya@gmail.com',
-        'sidorenko.a@te-st.ru',
-        'ahaenor@gmail.com',
+//        'kartsov@te-st.ru',
+//        'avdeeva.nataliya@gmail.com',
+//        'sidorenko.a@te-st.ru',
+//        'ahaenor@gmail.com',
 //        'denis.cherniatev@gmail.com',
     ];
 
