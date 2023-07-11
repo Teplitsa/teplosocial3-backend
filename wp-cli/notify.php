@@ -28,13 +28,15 @@ class Notificator
             ],
         ]);
 
+//        error_log('Users to send: '.print_r($users, 1)); // TODO TMP DBG
+
         foreach($users as $user) {
 
             if(class_exists('WP_CLI')) {
                 \WP_CLI::log("user: " . $user->user_email);
             }
 
-            self::mail_onboarding_faq($user);
+            self::mail_onboarding_faq($user /*, true*/ );
             add_user_meta($user->ID, Student::META_ONBOARDING_FAQ_SENT, true, true);
 
         }
@@ -72,7 +74,7 @@ class Notificator
             wp_mail(
                 $user->user_email,
                 $email_template->post_title,
-                wpautop(str_replace('{user_first_name}', $user_first_name, $email_template->post_content))
+                wpautop(str_replace('{user_first_name}', $user_first_name, $email_template->post_content)),
                 []
             );
 

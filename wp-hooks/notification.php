@@ -243,7 +243,7 @@ add_filter('wp_mail_from_name', 'tps_change_mail_from_name');
 add_action('init', function(){
 
     if( !wp_next_scheduled('tps_send_onboarding_faq_action') ) {
-        wp_schedule_event(time(), 'daily', 'tps_send_onboarding_faq_action');
+        wp_schedule_event(time(), 'twicedaily', 'tps_send_onboarding_faq_action'); // PROD: 'daily'
     }
 
 });
@@ -256,6 +256,15 @@ function tps_send_onboarding_faq() {
 
 }
 // WP_Cron task - END
+
+add_filter('cron_schedules', 'example_add_cron_interval');
+function example_add_cron_interval($schedules) {
+    $schedules['minutely'] = array(
+        'interval' => 60,
+        'display'  => esc_html__('Every minute'),
+    );
+    return $schedules;
+}
 
 //add_action('admin_init', function(){
 //
