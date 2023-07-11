@@ -16,8 +16,8 @@ class Notificator
         $users = get_users([
             'date_query' => [
                 'relation' => 'AND',
-                ['before' => '24 hours ago', 'inclusive' => true],
-                ['after' => '48 hours ago', 'inclusive' => false],
+                ['before' => '0 hours ago', 'inclusive' => true],
+                ['after' => '24 hours ago', 'inclusive' => false],
             ],
             'meta_query' => [
                 'relation' => 'OR',
