@@ -2,8 +2,6 @@
 
 namespace Teplosocial\models;
 
-use \Teplosocial\models\{Module, Block};
-
 class CourseCache extends Cacheable
 {
     public static string $post_type = 'tps_course';
@@ -190,6 +188,21 @@ class Course extends Post
         }
 
         return null;
+    }
+
+    public static function get_all_uncompleted_modules($course_id, $user_id)
+    {
+        $modules = Module::get_list_by_course($course_id);
+        $meta = \get_user_meta($user_id);
+
+        $uncompleted_modules = [];
+        foreach($modules as $module) {
+            if(empty($meta[Module::USER_META_MODULE_COMPLETED . $module->ID])) {
+                $uncompleted_modules[] = $module;
+            }
+        }
+
+        return $uncompleted_modules;
     }
 
     public static function is_block_available_for_guest($block) {

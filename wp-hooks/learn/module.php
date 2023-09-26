@@ -41,6 +41,17 @@ class ModuleHooks {
             if($completed_module) {
 
                 $uncompleted_course_module = Course::get_first_uncompleted_module($course->ID, $user_id);
+
+                // Intentional changes after 20.09.2023: now the "Final" ("итоговое задание") Module is not accounted for
+                // in completion of the course/track, and it isn't required to complete when user course sertificates are given:
+                if(
+                    stripos($uncompleted_course_module->post_title, 'Итоговое') !== false
+                    && count(Course::get_all_uncompleted_modules($course->ID, $user_id)) === 1
+                ) { // Just one uncompleted Module remains - the "Final task" ("Итоговое задание"). Giving sertificate to user:
+                    $uncompleted_course_module = null;
+                }
+                // Intentional changes - END
+
                 if( !$uncompleted_course_module ) {
 
                     Course::complete_by_user($course->ID, $user_id);
